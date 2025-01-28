@@ -1,4 +1,4 @@
-package com.policene.cinecrud.sql;
+package com.policene.cinecrud.config;
 
 import java.io.FileInputStream;
 import java.util.Properties;

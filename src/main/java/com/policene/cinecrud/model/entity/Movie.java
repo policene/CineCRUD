@@ -1,14 +1,11 @@
-package com.policene.cinecrud.model;
-
-import java.util.List;
-import java.util.stream.Collectors;
+package com.policene.cinecrud.model.entity;
 
 public class Movie {
 
     private Integer id;
     private String title;
     private String director;
-//    private List<Gender> genders;
+    private String gender;
     private Integer year;
     private Integer rating;
 
@@ -23,13 +20,13 @@ public class Movie {
         this.director = director;
     }
 
-//    public List<Gender> getGenders() {
-//        return genders;
-//    }
-//
-//    public void setGenders(List<Gender> genders) {
-//        this.genders = genders;
-//    }
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public Integer getId() {
         return id;
@@ -63,7 +60,7 @@ public class Movie {
         this.year = year;
     }
 
-    public Movie(String director, Integer rating, String title, Integer year) {
+    public Movie(String title, String gender, String director, Integer year, Integer rating) {
         this.director = director;
         this.rating = rating;
         this.title = title;
@@ -72,13 +69,9 @@ public class Movie {
 
     @Override
     public String toString() {
-//        String generosFormatados = genders.stream()
-//                .map(Gender::getNome)
-//                .collect(Collectors.joining(", "));
-
         return "============================================\n" +
                 " - " + title + " | " + year + " | Rating: " + rating +
-//                "\n - Gêneros: " + generosFormatados +
+                "\n - Gênero: " + gender +
                 "\n - Diretor: " + getDirector();
     }
 }

@@ -1,7 +1,7 @@
-package com.policene.cinecrud.dao;
+package com.policene.cinecrud.model.dao;
 
-import com.policene.cinecrud.model.Movie;
-import com.policene.cinecrud.sql.ConnectionFabric;
+import com.policene.cinecrud.model.entity.Movie;
+import com.policene.cinecrud.config.ConnectionFabric;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,12 +17,13 @@ public class MovieDAO {
 
     public void insert (Movie movie) {
         try {
-            String sql = "INSERT INTO movies (title, director, year, rating) VALUE (?, ?, ?, ?)";
+            String sql = "INSERT INTO movies (title, director, year, rating, gender) VALUE (?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, movie.getTitle());
             statement.setString(2, movie.getDirector());
             statement.setInt(3, movie.getYear());
             statement.setInt(4, movie.getRating());
+            statement.setString(6, movie.getGender());
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
                 System.out.println("A new movie was inserted successfully!");
@@ -39,7 +40,7 @@ public class MovieDAO {
         }
 
         try {
-            String sql = "UPDATE movies SET title = ?, director = ?, year = ?, rating = ? WHERE idmovies = ?";
+            String sql = "UPDATE movies SET title = ?, director = ?, year = ?, rating = ?, gender = ? WHERE idmovies = ?";
 
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, movie.getTitle());
@@ -47,6 +48,7 @@ public class MovieDAO {
             statement.setInt(3, movie.getYear());
             statement.setInt(4, movie.getRating());
             statement.setInt(5, movie.getId());
+            statement.setString(6, movie.getGender());
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("The movie was updated successfully!");
@@ -71,9 +73,7 @@ public class MovieDAO {
     }
 
     public List<Movie> listAll () {
-
         List<Movie> registers = new ArrayList<>();
-
         try {
             String sql = "SELECT * from movies";
             Statement statement = connection.createStatement();
@@ -87,15 +87,12 @@ public class MovieDAO {
                 movie.setDirector(resultSet.getString("director"));
                 movie.setYear(resultSet.getInt("year"));
                 movie.setRating(resultSet.getInt("rating"));
+                movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
-
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
         return registers;
     }
 
@@ -116,6 +113,7 @@ public class MovieDAO {
                 movie.setDirector(resultSet.getString("director"));
                 movie.setYear(resultSet.getInt("year"));
                 movie.setRating(resultSet.getInt("rating"));
+                movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
         } catch (SQLException e) {
@@ -142,6 +140,7 @@ public class MovieDAO {
                 movie.setDirector(resultSet.getString("director"));
                 movie.setYear(resultSet.getInt("year"));
                 movie.setRating(resultSet.getInt("rating"));
+                movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
         } catch (SQLException e) {
@@ -168,6 +167,7 @@ public class MovieDAO {
                 movie.setDirector(resultSet.getString("director"));
                 movie.setYear(resultSet.getInt("year"));
                 movie.setRating(resultSet.getInt("rating"));
+                movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
         } catch (SQLException e) {
@@ -194,6 +194,7 @@ public class MovieDAO {
                 movie.setDirector(resultSet.getString("director"));
                 movie.setYear(resultSet.getInt("year"));
                 movie.setRating(resultSet.getInt("rating"));
+                movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
         } catch (SQLException e) {
@@ -219,6 +220,7 @@ public class MovieDAO {
                 movie.setDirector(resultSet.getString("director"));
                 movie.setYear(resultSet.getInt("year"));
                 movie.setRating(resultSet.getInt("rating"));
+                movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
         } catch (SQLException e) {
@@ -246,6 +248,7 @@ public class MovieDAO {
                 movie.setDirector(resultSet.getString("director"));
                 movie.setYear(resultSet.getInt("year"));
                 movie.setRating(resultSet.getInt("rating"));
+                movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
         } catch (SQLException e) {
@@ -272,6 +275,7 @@ public class MovieDAO {
                 movie.setDirector(resultSet.getString("director"));
                 movie.setYear(resultSet.getInt("year"));
                 movie.setRating(resultSet.getInt("rating"));
+                movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
         } catch (SQLException e) {
@@ -297,6 +301,7 @@ public class MovieDAO {
                 movie.setDirector(resultSet.getString("director"));
                 movie.setYear(resultSet.getInt("year"));
                 movie.setRating(resultSet.getInt("rating"));
+                movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
         } catch (SQLException e) {
@@ -322,6 +327,7 @@ public class MovieDAO {
                 movie.setDirector(resultSet.getString("director"));
                 movie.setYear(resultSet.getInt("year"));
                 movie.setRating(resultSet.getInt("rating"));
+                movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
         } catch (SQLException e) {
@@ -347,6 +353,7 @@ public class MovieDAO {
                 movie.setDirector(resultSet.getString("director"));
                 movie.setYear(resultSet.getInt("year"));
                 movie.setRating(resultSet.getInt("rating"));
+                movie.setGender(resultSet.getString("gender"));
             }
 
         } catch (SQLException e) {
