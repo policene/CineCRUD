@@ -1,7 +1,8 @@
-package com.policene.cinecrud.model.dao;
+package com.policene.cinecrud.dao;
 
-import com.policene.cinecrud.model.entity.Movie;
+import com.policene.cinecrud.entity.Movie;
 import com.policene.cinecrud.config.ConnectionFabric;
+import com.policene.cinecrud.view.MainMenu;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class MovieDAO {
             statement.setString(2, movie.getDirector());
             statement.setInt(3, movie.getYear());
             statement.setInt(4, movie.getRating());
-            statement.setString(6, movie.getGender());
+            statement.setString(5, movie.getGender());
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
                 System.out.println("A new movie was inserted successfully!");
@@ -34,10 +35,6 @@ public class MovieDAO {
     }
 
     public void update (Movie movie) {
-
-        if (movie == null || movie.getId() == null) {
-            throw new IllegalArgumentException("O filme ou ID do filme não pode ser nulo.");
-        }
 
         try {
             String sql = "UPDATE movies SET title = ?, director = ?, year = ?, rating = ?, gender = ? WHERE idmovies = ?";
@@ -362,6 +359,33 @@ public class MovieDAO {
 
         return movie;
     }
+
+    public Movie findByTitle(String title) {
+        Movie movie = null;
+        try {
+            String sql = "SELECT * from movies WHERE title = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, title);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                movie = new Movie();
+                movie.setId(resultSet.getInt("idmovies"));
+                movie.setTitle(resultSet.getString("title"));
+                movie.setDirector(resultSet.getString("director"));
+                movie.setYear(resultSet.getInt("year"));
+                movie.setRating(resultSet.getInt("rating"));
+                movie.setGender(resultSet.getString("gender"));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return movie;
+    }
+
+
 
 
 

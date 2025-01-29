@@ -1,16 +1,15 @@
 package com.policene;
 
-
-import com.policene.cinecrud.model.dao.MovieDAO;
+import com.policene.cinecrud.dao.MovieDAO;
+import com.policene.cinecrud.entity.Movie;
+import com.policene.cinecrud.service.MovieService;
+import com.policene.cinecrud.view.MainMenu;
 
 public class App {
     public static void main(String[] args) {
 
-        MovieDAO movieDAO = new MovieDAO();
+        MainMenu.showMenu();
 
 
-        if(movieDAO.listAll().isEmpty()){
-            System.out.println("Nenhum filme encontrado.");
-        }
     }
 }

@@ -13,7 +13,7 @@ public class ConnectionFabric {
         Connection conn = null;
         try {
             Properties properties = new Properties();
-            properties.load(new FileInputStream("db_config.properties"));
+            properties.load(new FileInputStream("src/main/java/com/policene/cinecrud/config/db_config.properties"));
 
             String url = properties.getProperty("db.url");
             String user = properties.getProperty("db.user");
@@ -21,7 +21,7 @@ public class ConnectionFabric {
 
 
             conn = DriverManager.getConnection(url, user, password);
-            System.out.println("Conexão realizada com sucesso.");
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
