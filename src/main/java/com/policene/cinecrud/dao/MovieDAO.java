@@ -44,8 +44,8 @@ public class MovieDAO {
             statement.setString(2, movie.getDirector());
             statement.setInt(3, movie.getYear());
             statement.setInt(4, movie.getRating());
-            statement.setInt(5, movie.getId());
-            statement.setString(6, movie.getGender());
+            statement.setString(5, movie.getGender());
+            statement.setInt(6, movie.getId());
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("The movie was updated successfully!");

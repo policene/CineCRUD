@@ -93,8 +93,8 @@ public class Movie {
     @Override
     public String toString() {
         return "============================================\n" +
-                " - " + title + " | " + year + " | Rating: " + rating +
+                "ID: " + id + " - " + title + " | " + year + " | Rating: " + rating +
                 "\n - Gênero: " + gender +
-                "\n - Diretor: " + getDirector();
+                "\n - Diretor: " + director;
     }
 }
