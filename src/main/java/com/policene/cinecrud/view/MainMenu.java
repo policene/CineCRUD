@@ -14,45 +14,48 @@ public class MainMenu {
     private static final Scanner read = new Scanner(System.in);
 
     public static void showMenu () {
-        System.out.println();
-        System.out.println("------- CINECRUD -------");
-        System.out.println("1. Register a new movie.");
-        System.out.println("2. Delete an existing movie.");
-        System.out.println("3. Update an existing movie.");
-        System.out.println("4. Listing options.");
-        System.out.println("5. Ordering options.");
-        System.out.println("6. Leave.");
-        System.out.println();
 
-        boolean optionChosen = false;
+        boolean isWorking = true;
 
-        while (!optionChosen) {
+        while (isWorking) {
+            System.out.println();
+            System.out.println("------- CINECRUD -------");
+            System.out.println("1. Register a new movie.");
+            System.out.println("2. Delete an existing movie.");
+            System.out.println("3. Update an existing movie.");
+            System.out.println("4. Listing options.");
+            System.out.println("5. Ordering options.");
+            System.out.println("6. Leave.");
+            System.out.println();
 
-            try {
-                System.out.println("Choose an option.");
-                int option = read.nextInt();
-                read.nextLine();
-                optionChosen = true;
+            boolean optionChosen = false;
 
-                switch (option) {
-                    case 1 -> registerMovie();
-                    case 2 -> deleteMovie();
-                    case 3 -> updateMovie();
-                    case 4 -> listingOptions();
-                    case 5 -> orderingOptions();
-                    default -> optionChosen = false;
+
+            while (!optionChosen) {
+
+                try {
+                    System.out.println("Choose an option.");
+                    int option = read.nextInt();
+                    read.nextLine();
+                    optionChosen = true;
+
+                    switch (option) {
+                        case 1 -> registerMovie();
+                        case 2 -> deleteMovie();
+                        case 3 -> updateMovie();
+                        case 4 -> listingOptions();
+                        case 5 -> orderingOptions();
+                        case 6 -> isWorking = false;
+                        default -> System.out.println("ERROR: Invalid option.");
+                    }
+
+                } catch (InputMismatchException ex) {
+                    System.out.println("ERROR: Invalid option.");
+                    read.nextLine();
+                    optionChosen = false;
                 }
-
-            } catch (InputMismatchException ex) {
-                System.out.println("ERROR: Invalid option.");
-                read.nextLine();
-                optionChosen = false;
             }
         }
-
-
-
-
     }
 
     private static void registerMovie() {
@@ -86,9 +89,21 @@ public class MainMenu {
         try {
             System.out.println("Enter the ID of the movie you want to delete: ");
             int id = read.nextInt();
+            read.nextLine();
 
             MovieService service = new MovieService(new MovieDAO());
-            service.deleteMovie(id);
+
+            Movie movie = service.findMovieById(id);
+
+            System.out.println(movie);
+            System.out.println("Do you want do delete this movie? (Y/N)");
+            String answer = read.nextLine().toUpperCase();
+
+            if (answer.equals("Y")) {
+                service.deleteMovie(id);
+            }
+
+
         } catch (MovieNotFoundException ex) {
             System.out.println(ex.getMessage());
         }

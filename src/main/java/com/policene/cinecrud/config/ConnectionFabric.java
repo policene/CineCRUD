@@ -1,6 +1,7 @@
 package com.policene.cinecrud.config;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Properties;
 
 import java.sql.Connection;
@@ -13,7 +14,11 @@ public class ConnectionFabric {
         Connection conn = null;
         try {
             Properties properties = new Properties();
-            properties.load(new FileInputStream("src/main/java/com/policene/cinecrud/config/db_config.properties"));
+
+            InputStream input = ConnectionFabric.class.getClassLoader().getResourceAsStream("db_config.properties");
+
+
+            properties.load(input);
 
             String url = properties.getProperty("db.url");
             String user = properties.getProperty("db.user");
