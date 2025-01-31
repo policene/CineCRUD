@@ -82,8 +82,8 @@ public class MovieDAO {
                 movie.setId(resultSet.getInt("idmovies"));
                 movie.setTitle(resultSet.getString("title"));
                 movie.setDirector(resultSet.getString("director"));
-                movie.setYear(resultSet.getInt("year"));
-                movie.setRating(resultSet.getInt("rating"));
+                movie.setYear(String.valueOf(resultSet.getInt("year")));
+                movie.setRating(String.valueOf(resultSet.getInt("rating")));
                 movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
@@ -108,8 +108,8 @@ public class MovieDAO {
                 movie.setId(resultSet.getInt("idmovies"));
                 movie.setTitle(resultSet.getString("title"));
                 movie.setDirector(resultSet.getString("director"));
-                movie.setYear(resultSet.getInt("year"));
-                movie.setRating(resultSet.getInt("rating"));
+                movie.setYear(String.valueOf(resultSet.getInt("year")));
+                movie.setRating(String.valueOf(resultSet.getInt("rating")));
                 movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
@@ -135,8 +135,8 @@ public class MovieDAO {
                 movie.setId(resultSet.getInt("idmovies"));
                 movie.setTitle(resultSet.getString("title"));
                 movie.setDirector(resultSet.getString("director"));
-                movie.setYear(resultSet.getInt("year"));
-                movie.setRating(resultSet.getInt("rating"));
+                movie.setYear(String.valueOf(resultSet.getInt("year")));
+                movie.setRating(String.valueOf(resultSet.getInt("rating")));
                 movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
@@ -162,8 +162,8 @@ public class MovieDAO {
                 movie.setId(resultSet.getInt("idmovies"));
                 movie.setTitle(resultSet.getString("title"));
                 movie.setDirector(resultSet.getString("director"));
-                movie.setYear(resultSet.getInt("year"));
-                movie.setRating(resultSet.getInt("rating"));
+                movie.setYear(String.valueOf(resultSet.getInt("year")));
+                movie.setRating(String.valueOf(resultSet.getInt("rating")));
                 movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
@@ -189,8 +189,8 @@ public class MovieDAO {
                 movie.setId(resultSet.getInt("idmovies"));
                 movie.setTitle(resultSet.getString("title"));
                 movie.setDirector(resultSet.getString("director"));
-                movie.setYear(resultSet.getInt("year"));
-                movie.setRating(resultSet.getInt("rating"));
+                movie.setYear(String.valueOf(resultSet.getInt("year")));
+                movie.setRating(String.valueOf(resultSet.getInt("rating")));
                 movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
@@ -215,8 +215,8 @@ public class MovieDAO {
                 movie.setId(resultSet.getInt("idmovies"));
                 movie.setTitle(resultSet.getString("title"));
                 movie.setDirector(resultSet.getString("director"));
-                movie.setYear(resultSet.getInt("year"));
-                movie.setRating(resultSet.getInt("rating"));
+                movie.setYear(String.valueOf(resultSet.getInt("year")));
+                movie.setRating(String.valueOf(resultSet.getInt("rating")));
                 movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
@@ -243,8 +243,8 @@ public class MovieDAO {
                 movie.setId(resultSet.getInt("idmovies"));
                 movie.setTitle(resultSet.getString("title"));
                 movie.setDirector(resultSet.getString("director"));
-                movie.setYear(resultSet.getInt("year"));
-                movie.setRating(resultSet.getInt("rating"));
+                movie.setYear(String.valueOf(resultSet.getInt("year")));
+                movie.setRating(String.valueOf(resultSet.getInt("rating")));
                 movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
@@ -270,8 +270,8 @@ public class MovieDAO {
                 movie.setId(resultSet.getInt("idmovies"));
                 movie.setTitle(resultSet.getString("title"));
                 movie.setDirector(resultSet.getString("director"));
-                movie.setYear(resultSet.getInt("year"));
-                movie.setRating(resultSet.getInt("rating"));
+                movie.setYear(String.valueOf(resultSet.getInt("year")));
+                movie.setRating(String.valueOf(resultSet.getInt("rating")));
                 movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
@@ -296,8 +296,8 @@ public class MovieDAO {
                 movie.setId(resultSet.getInt("idmovies"));
                 movie.setTitle(resultSet.getString("title"));
                 movie.setDirector(resultSet.getString("director"));
-                movie.setYear(resultSet.getInt("year"));
-                movie.setRating(resultSet.getInt("rating"));
+                movie.setYear(String.valueOf(resultSet.getInt("year")));
+                movie.setRating(String.valueOf(resultSet.getInt("rating")));
                 movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
@@ -322,8 +322,8 @@ public class MovieDAO {
                 movie.setId(resultSet.getInt("idmovies"));
                 movie.setTitle(resultSet.getString("title"));
                 movie.setDirector(resultSet.getString("director"));
-                movie.setYear(resultSet.getInt("year"));
-                movie.setRating(resultSet.getInt("rating"));
+                movie.setYear(String.valueOf(resultSet.getInt("year")));
+                movie.setRating(String.valueOf(resultSet.getInt("rating")));
                 movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
@@ -348,8 +348,8 @@ public class MovieDAO {
                 movie.setId(resultSet.getInt("idmovies"));
                 movie.setTitle(resultSet.getString("title"));
                 movie.setDirector(resultSet.getString("director"));
-                movie.setYear(resultSet.getInt("year"));
-                movie.setRating(resultSet.getInt("rating"));
+                movie.setYear(String.valueOf(resultSet.getInt("year")));
+                movie.setRating(String.valueOf(resultSet.getInt("rating")));
                 movie.setGender(resultSet.getString("gender"));
             }
 
@@ -373,8 +373,8 @@ public class MovieDAO {
                 movie.setId(resultSet.getInt("idmovies"));
                 movie.setTitle(resultSet.getString("title"));
                 movie.setDirector(resultSet.getString("director"));
-                movie.setYear(resultSet.getInt("year"));
-                movie.setRating(resultSet.getInt("rating"));
+                movie.setYear(String.valueOf(resultSet.getInt("year")));
+                movie.setRating(String.valueOf(resultSet.getInt("rating")));
                 movie.setGender(resultSet.getString("gender"));
             }
 

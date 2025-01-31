@@ -70,9 +70,9 @@ public class MainMenu {
             System.out.println("Enter the movie's gender: ");
             movie.setGender(read.nextLine());
             System.out.println("Enter the movie's year: ");
-            movie.setYear(read.nextInt());
+            movie.setYear(read.nextLine());
             System.out.println("Enter your movie's rating: ");
-            movie.setRating(read.nextInt());
+            movie.setRating(read.nextLine());
 
             MovieService service = new MovieService(new MovieDAO());
             service.registerMovie(movie);
@@ -146,18 +146,18 @@ public class MainMenu {
                     System.out.println("Enter the movie's updated year (blank for mantain): ");
                     String newYear = read.nextLine();
                     if (newYear.isEmpty()) {
-                        movieFound.setYear(movieFound.getYear());
+                        movieFound.setYear(movieFound.getYear().toString());
                     } else {
-                        movieFound.setYear(Integer.parseInt(newYear));
+                        movieFound.setYear(newYear);
                     }
 
 
                     System.out.println("Enter your movie's updated rating (blank for mantain): ");
                     String newRating = read.nextLine();
                     if (newRating.isEmpty()) {
-                        movieFound.setRating(movieFound.getRating());
+                        movieFound.setRating(movieFound.getRating().toString());
                     } else {
-                        movieFound.setRating(Integer.parseInt(newRating));
+                        movieFound.setRating(newRating);
                     }
 
                     service.updateMovie(movieFound);
