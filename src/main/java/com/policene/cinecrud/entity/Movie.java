@@ -1,5 +1,7 @@
 package com.policene.cinecrud.entity;
 
+import com.policene.cinecrud.exceptions.GenderNotFoundException;
+
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
@@ -32,13 +34,22 @@ public class Movie {
     }
 
     public void setGender(String gender) {
-        if (gender == null || gender.isBlank()) {
+        if (gender.isEmpty()) {
             throw new IllegalArgumentException("ERROR: Gender can't be null.");
         }
-        if (gender.matches("\\d")){
-            throw new IllegalArgumentException("ERROR: Gender can't have numbers.");
+
+        Gender genderFound = Gender.verifyGender(gender);
+
+        if (genderFound == null) {
+            throw new GenderNotFoundException("ERROR: Gender not found.");
+        } else {
+            this.gender = genderFound.getDescription();
         }
-        this.gender = gender;
+
+
+
+
+
     }
 
     public Integer getId() {
