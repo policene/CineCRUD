@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.policene.cinecrud.controllers.AppController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <AnchorPane prefHeight="400.0" prefWidth="209.0">
+               <children>
+                  <Button fx:id="buttonRegister" layoutX="57.0" layoutY="188.0" mnemonicParsing="false" onAction="#moveToRegister" text="Registrar Filme" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="208.0" prefHeight="400.0" prefWidth="394.0" style="-fx-background-color: red;" />
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
