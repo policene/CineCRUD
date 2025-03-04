@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.policene.cinecrud.controllers.MovieRegisterController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.policene.cinecrud.controllers.MovieRegisterController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <top>
@@ -24,7 +24,7 @@
                </children></AnchorPane>
          </top>
          <left>
-            <AnchorPane prefHeight="310.0" prefWidth="601.0" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="382.0" prefWidth="852.0" BorderPane.alignment="CENTER">
                <children>
                   <Label layoutX="142.0" layoutY="58.0" text="Título" />
                   <TextField fx:id="titleField" layoutX="142.0" layoutY="75.0" />
@@ -36,28 +36,28 @@
                   <TextField fx:id="directorField" layoutX="309.0" layoutY="75.0" />
                   <Label layoutX="309.0" layoutY="118.0" text="Gênero" />
                   <ChoiceBox fx:id="genderField" layoutX="309.0" layoutY="135.0" prefWidth="150.0" />
-                  <Button fx:id="continueButton" layoutX="515.0" layoutY="275.0" mnemonicParsing="false" onAction="#prosseguir" text="Prosseguir" />
-                  <Label fx:id="titleWarning" layoutX="146.0" layoutY="66.0" text="* Mínimo 3 caractéres" textFill="RED" visible="false">
+                  <Button fx:id="continueButton" layoutX="766.0" layoutY="355.0" mnemonicParsing="false" onAction="#prosseguir" text="Prosseguir" />
+                  <Label fx:id="titleWarning" layoutX="177.0" layoutY="60.0" text="* Mínimo 3 caractéres" textFill="RED" visible="false">
                      <font>
                         <Font size="9.0" />
                      </font>
                   </Label>
-                  <Label fx:id="directorWarning" layoutX="320.0" layoutY="66.0" text="* Mínimo 4 caractéres" textFill="RED" visible="false">
+                  <Label fx:id="directorWarning" layoutX="350.0" layoutY="60.0" text="* Mínimo 4 caractéres" textFill="RED" visible="false">
                      <font>
                         <Font size="9.0" />
                      </font>
                   </Label>
-                  <Label fx:id="ratingWarning" layoutX="150.0" layoutY="171.0" text="* Intervalo entre 0 e 100" textFill="RED" visible="false">
+                  <Label fx:id="ratingWarning" layoutX="183.0" layoutY="178.0" text="* Intervalo entre 0 e 100" textFill="RED" visible="false">
                      <font>
                         <Font size="9.0" />
                      </font>
                   </Label>
-                  <Label fx:id="yearWarning" layoutX="139.0" layoutY="125.0" text="* Data inválida" textFill="RED" visible="false">
+                  <Label fx:id="yearWarning" layoutX="169.0" layoutY="120.0" text="* Data inválida" textFill="RED" visible="false">
                      <font>
                         <Font size="9.0" />
                      </font>
                   </Label>
-                  <Button fx:id="returnButton" layoutX="14.0" layoutY="275.0" mnemonicParsing="false" onAction="#retornar" text="Voltar">
+                  <Button fx:id="returnButton" layoutX="14.0" layoutY="355.0" mnemonicParsing="false" onAction="#retornar" text="Voltar">
                      <graphic>
                         <FontIcon iconLiteral="fas-chevron-left" />
                      </graphic></Button>

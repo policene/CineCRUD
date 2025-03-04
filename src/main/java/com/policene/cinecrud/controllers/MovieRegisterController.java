@@ -3,6 +3,7 @@ package com.policene.cinecrud.controllers;
 import com.policene.cinecrud.dao.MovieDAO;
 import com.policene.cinecrud.entities.Gender;
 import com.policene.cinecrud.entities.Movie;
+import com.policene.cinecrud.exceptions.ExistentMovieException;
 import com.policene.cinecrud.service.MovieService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +22,10 @@ import java.time.Year;
 import java.util.ResourceBundle;
 
 public class MovieRegisterController implements Initializable {
+
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     @FXML
     private Button continueButton;
@@ -134,25 +139,46 @@ public class MovieRegisterController implements Initializable {
             a.showAndWait();
         } else {
 
-            Movie movie = new Movie();
-            movie.setTitle(titleField.getText());
-            movie.setDirector(directorField.getText());
-            movie.setYear(yearField.getText());
-            movie.setRating(ratingField.getText());
-            movie.setGender(genderField.getValue().getDescription());
+            try {
+                Movie movie = new Movie();
+                movie.setTitle(titleField.getText());
+                movie.setDirector(directorField.getText());
+                movie.setYear(yearField.getText());
+                movie.setRating(ratingField.getText());
+                movie.setGender(genderField.getValue().getDescription());
 
-            MovieService service = new MovieService(new MovieDAO());
-            service.registerMovie(movie);
+                MovieService service = new MovieService(new MovieDAO());
+//                service.registerMovie(movie);
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sucesso");
+                alert.setContentText("Filme inserido com sucesso.");
+                alert.showAndWait();
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/policene/cinecrud/app.fxml"));
+                root = loader.load();
+                stage = (Stage)((Node)ev.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+
+            } catch (ExistentMovieException | IOException ex) {
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erro");
+                alert.setContentText("Título de filme já existe no sistema.");
+                alert.showAndWait();
+            } catch (Exception ex){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erro");
+                alert.setContentText("Informações inválidas.");
+                alert.showAndWait();
+            }
 
         }
     }
 
     public void retornar(ActionEvent ev) throws IOException {
-
-        Stage stage;
-        Scene scene;
-        Parent root;
-
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Retornar");
         alert.setHeaderText("");
@@ -165,6 +191,10 @@ public class MovieRegisterController implements Initializable {
             stage.setScene(scene);
             stage.show();
         }
+    }
+
+    public void returnAction (){
+
     }
 
     public boolean isNull () {

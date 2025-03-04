@@ -1,0 +1,22 @@
+.lateralbar {
+    -fx-background-color: linear-gradient(
+            to bottom,
+            #c7020c,
+            #7d1318
+        );
+}
+
+.table .column-header {
+    -fx-background-color: #c7020c;
+    -fx-border-color: #d12b1f;
+}
+
+.table .column-header .label {
+    -fx-text-fill: white; /* Cor do texto */
+    -fx-font-weight: bold; /* Negrito */
+    -fx-alignment: center; /* Alinhamento do texto */
+}
+
+.searchButton :hover {
+    -fx-background-color: blue;
+}

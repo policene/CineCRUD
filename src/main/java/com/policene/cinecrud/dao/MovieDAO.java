@@ -3,6 +3,8 @@ package com.policene.cinecrud.dao;
 import com.policene.cinecrud.config.ConnectionFabric;
 import com.policene.cinecrud.entities.Movie;
 import com.policene.cinecrud.entities.Movie;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ import java.util.List;
 
 public class MovieDAO {
 
-    private Connection connection;
+    public Connection connection;
 
     public MovieDAO(){
         connection = ConnectionFabric.createConnection();
@@ -69,30 +71,6 @@ public class MovieDAO {
         }
     }
 
-    public List<Movie> listAll () {
-        List<Movie> registers = new ArrayList<>();
-        try {
-            String sql = "SELECT * from movies";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            while (resultSet.next()) {
-
-                Movie movie = new Movie();
-                movie.setId(resultSet.getInt("idmovies"));
-                movie.setTitle(resultSet.getString("title"));
-                movie.setDirector(resultSet.getString("director"));
-                movie.setYear(String.valueOf(resultSet.getInt("year")));
-                movie.setRating(String.valueOf(resultSet.getInt("rating")));
-                movie.setGender(resultSet.getString("gender"));
-                registers.add(movie);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return registers;
-    }
-
     public List<Movie> listByTitle(String title) {
         List<Movie> registers = new ArrayList<>();
 
@@ -120,246 +98,6 @@ public class MovieDAO {
         return registers;
     }
 
-    public List<Movie> listByDirector(String director) {
-        List<Movie> registers = new ArrayList<>();
-
-        try {
-            String sql = "SELECT * FROM movies WHERE director LIKE ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, director + "%");
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Movie movie = new Movie();
-                movie.setId(resultSet.getInt("idmovies"));
-                movie.setTitle(resultSet.getString("title"));
-                movie.setDirector(resultSet.getString("director"));
-                movie.setYear(String.valueOf(resultSet.getInt("year")));
-                movie.setRating(String.valueOf(resultSet.getInt("rating")));
-                movie.setGender(resultSet.getString("gender"));
-                registers.add(movie);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return registers;
-    }
-
-    public List<Movie> listByYear(Integer year) {
-        List<Movie> registers = new ArrayList<>();
-
-        try {
-            String sql = "SELECT * FROM movies WHERE year LIKE ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, year + "%");
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Movie movie = new Movie();
-                movie.setId(resultSet.getInt("idmovies"));
-                movie.setTitle(resultSet.getString("title"));
-                movie.setDirector(resultSet.getString("director"));
-                movie.setYear(String.valueOf(resultSet.getInt("year")));
-                movie.setRating(String.valueOf(resultSet.getInt("rating")));
-                movie.setGender(resultSet.getString("gender"));
-                registers.add(movie);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return registers;
-    }
-
-
-    public List<Movie> orderByRatingDesc () {
-        List<Movie> registers = new ArrayList<>();
-
-        try {
-            String sql = "SELECT * FROM movies ORDER by rating DESC";
-            PreparedStatement statement = connection.prepareStatement(sql);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Movie movie = new Movie();
-                movie.setId(resultSet.getInt("idmovies"));
-                movie.setTitle(resultSet.getString("title"));
-                movie.setDirector(resultSet.getString("director"));
-                movie.setYear(String.valueOf(resultSet.getInt("year")));
-                movie.setRating(String.valueOf(resultSet.getInt("rating")));
-                movie.setGender(resultSet.getString("gender"));
-                registers.add(movie);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return registers;
-    }
-
-    public List<Movie> orderByRatingAsc () {
-        List<Movie> registers = new ArrayList<>();
-
-        try {
-            String sql = "SELECT * FROM movies ORDER by rating ASC";
-            PreparedStatement statement = connection.prepareStatement(sql);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Movie movie = new Movie();
-                movie.setId(resultSet.getInt("idmovies"));
-                movie.setTitle(resultSet.getString("title"));
-                movie.setDirector(resultSet.getString("director"));
-                movie.setYear(String.valueOf(resultSet.getInt("year")));
-                movie.setRating(String.valueOf(resultSet.getInt("rating")));
-                movie.setGender(resultSet.getString("gender"));
-                registers.add(movie);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return registers;
-    }
-
-
-
-    public List<Movie> orderByYearDesc () {
-        List<Movie> registers = new ArrayList<>();
-
-        try {
-            String sql = "SELECT * FROM movies ORDER by year DESC";
-            PreparedStatement statement = connection.prepareStatement(sql);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Movie movie = new Movie();
-                movie.setId(resultSet.getInt("idmovies"));
-                movie.setTitle(resultSet.getString("title"));
-                movie.setDirector(resultSet.getString("director"));
-                movie.setYear(String.valueOf(resultSet.getInt("year")));
-                movie.setRating(String.valueOf(resultSet.getInt("rating")));
-                movie.setGender(resultSet.getString("gender"));
-                registers.add(movie);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return registers;
-    }
-
-
-    public List<Movie> orderByYearAsc () {
-        List<Movie> registers = new ArrayList<>();
-
-        try {
-            String sql = "SELECT * FROM movies ORDER by year ASC";
-            PreparedStatement statement = connection.prepareStatement(sql);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Movie movie = new Movie();
-                movie.setId(resultSet.getInt("idmovies"));
-                movie.setTitle(resultSet.getString("title"));
-                movie.setDirector(resultSet.getString("director"));
-                movie.setYear(String.valueOf(resultSet.getInt("year")));
-                movie.setRating(String.valueOf(resultSet.getInt("rating")));
-                movie.setGender(resultSet.getString("gender"));
-                registers.add(movie);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return registers;
-    }
-
-    public List<Movie> orderByTitleDesc () {
-        List<Movie> registers = new ArrayList<>();
-
-        try {
-            String sql = "SELECT * FROM movies ORDER by title DESC";
-            PreparedStatement statement = connection.prepareStatement(sql);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Movie movie = new Movie();
-                movie.setId(resultSet.getInt("idmovies"));
-                movie.setTitle(resultSet.getString("title"));
-                movie.setDirector(resultSet.getString("director"));
-                movie.setYear(String.valueOf(resultSet.getInt("year")));
-                movie.setRating(String.valueOf(resultSet.getInt("rating")));
-                movie.setGender(resultSet.getString("gender"));
-                registers.add(movie);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return registers;
-    }
-
-    public List<Movie> orderByTitleAsc () {
-        List<Movie> registers = new ArrayList<>();
-
-        try {
-            String sql = "SELECT * FROM movies ORDER by title ASC";
-            PreparedStatement statement = connection.prepareStatement(sql);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Movie movie = new Movie();
-                movie.setId(resultSet.getInt("idmovies"));
-                movie.setTitle(resultSet.getString("title"));
-                movie.setDirector(resultSet.getString("director"));
-                movie.setYear(String.valueOf(resultSet.getInt("year")));
-                movie.setRating(String.valueOf(resultSet.getInt("rating")));
-                movie.setGender(resultSet.getString("gender"));
-                registers.add(movie);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return registers;
-    }
-
-
-    public Movie findById(Integer id) {
-        Movie movie = null;
-        try {
-            String sql = "SELECT * from movies WHERE idmovies = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                movie = new Movie();
-                movie.setId(resultSet.getInt("idmovies"));
-                movie.setTitle(resultSet.getString("title"));
-                movie.setDirector(resultSet.getString("director"));
-                movie.setYear(String.valueOf(resultSet.getInt("year")));
-                movie.setRating(String.valueOf(resultSet.getInt("rating")));
-                movie.setGender(resultSet.getString("gender"));
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return movie;
-    }
-
     public Movie findByTitle(String title) {
         Movie movie = null;
         try {
@@ -385,6 +123,27 @@ public class MovieDAO {
         return movie;
     }
 
+    public ObservableList<Movie> showAll () {
+        ObservableList<Movie> movies = FXCollections.observableArrayList();
+        String sql = "SELECT * from movies";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                Movie movie = new Movie();
+                movie.setId(rs.getInt("idmovies"));
+                movie.setTitle(rs.getString("title"));
+                movie.setDirector(rs.getString("director"));
+                movie.setGender(rs.getString("gender"));
+                movie.setYear(String.valueOf(rs.getInt("year")));
+                movie.setRating(String.valueOf(rs.getInt("rating")));
+                movies.add(movie);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return movies;
+    }
 
 
 
