@@ -12,10 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -80,12 +77,30 @@ public class AppController implements Initializable {
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        configureTableColumns();
+        loadData();
+
+        titleField.textProperty().addListener((observable, oldValue, newValue) -> {
+            List<Movie> results = new MovieDAO().listByTitle(newValue);
+            ObservableList<Movie> observableResults = FXCollections.observableArrayList(results);
+            table.setItems(observableResults);
+        });
+
+        titleField.setPromptText("Teste");
+    }
+
+    @FXML
+    void configureTableColumns(){
         col_id.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getId()));
         col_title.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getTitle()));
         col_director.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getDirector()));
         col_gender.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getGender()));
         col_year.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getYear()));
         col_rating.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getRating()));
+    }
+
+    @FXML
+    void loadData(){
         table.setItems(new MovieDAO().showAll());
     }
 
@@ -97,6 +112,22 @@ public class AppController implements Initializable {
         // Converte a lista para ObservableList e atualiza a TableView
         ObservableList<Movie> resultadosObservaveis = FXCollections.observableArrayList(resultados);
         table.setItems(resultadosObservaveis);
+    }
+
+    @FXML
+    void deleteMovie(ActionEvent ev){
+        Movie selectedMovie = table.getSelectionModel().getSelectedItem();
+        if (selectedMovie != null){
+            Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmacao.setTitle("Confirmar Exclusão");
+            confirmacao.setHeaderText("Tem certeza que deseja excluir o filme?");
+            confirmacao.setContentText(selectedMovie.getTitle() + " será removido permanentemente.");
+            if (confirmacao.showAndWait().get() == ButtonType.OK){
+                new MovieDAO().delete(selectedMovie.getId());
+                loadData();
+            }
+        }
+
     }
 
 

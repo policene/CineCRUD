@@ -77,7 +77,7 @@ public class MovieDAO {
         try {
             String sql = "SELECT * FROM movies WHERE title LIKE ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, title + "%");
+            statement.setString(1, "%" + title + "%");
 
             ResultSet resultSet = statement.executeQuery();
 

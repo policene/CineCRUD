@@ -19,19 +19,33 @@
          <children>
             <AnchorPane fx:id="lateralbar" prefHeight="480.0" prefWidth="165.0" styleClass="lateralbar" stylesheets="@app.css">
                <children>
-                  <Button fx:id="buttonRegister" layoutX="15.0" layoutY="225.0" mnemonicParsing="false" onAction="#moveToRegister" style="-fx-background-color: white;" text="Registrar Filme">
-                     <graphic>
-                        <FontIcon iconLiteral="fas-plus" />
-                     </graphic>
-                     <font>
-                        <Font name="Nirmala UI" size="15.0" />
-                     </font></Button>
-                  <Label layoutX="18.0" layoutY="25.0" prefHeight="60.0" prefWidth="130.0" text="CineCRUD" textAlignment="CENTER" textFill="WHITE">
+                  <Label layoutX="22.0" layoutY="25.0" prefHeight="60.0" prefWidth="121.0" text="CineCRUD" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Tw Cen MT Condensed Extra Bold" size="32.0" />
                      </font>
                   </Label>
                   <Line endX="100.0" layoutX="44.0" layoutY="72.0" startX="-28.5" stroke="WHITE" strokeWidth="2.0" />
+                  <Button fx:id="buttonRegister" graphicTextGap="10.0" layoutX="15.0" layoutY="130.0" mnemonicParsing="false" onAction="#moveToRegister" opacity="0.6" prefHeight="31.0" prefWidth="130.0" styleClass="buttonRegister" stylesheets="@app.css" text="Novo Filme" textFill="WHITE">
+                     <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
+                     </graphic>
+                     <font>
+                        <Font name="Nirmala UI Bold" size="15.0" />
+                     </font>
+                  </Button>
+                  <Label layoutX="43.0" layoutY="454.0" prefHeight="24.0" prefWidth="73.0" text="1.0.0-alpha " textFill="WHITE">
+                     <font>
+                        <Font name="Franklin Gothic Medium" size="14.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="buttonList" graphicTextGap="10.0" layoutX="15.0" layoutY="85.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="131.0" styleClass="buttonList" stylesheets="@app.css" text="Minha Lista" textFill="WHITE">
+                     <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-list" />
+                     </graphic>
+                     <font>
+                        <Font name="Nirmala UI Bold" size="15.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
             <AnchorPane layoutX="164.0" prefHeight="480.0" prefWidth="687.0" style="-fx-background-color: white;">
@@ -41,12 +55,12 @@
                         <Label text="Nenhum filme encontrado." />
                      </placeholder>
                     <columns>
-                      <TableColumn fx:id="col_id" prefWidth="34.0" text="ID" />
-                      <TableColumn fx:id="col_title" prefWidth="132.0" text="Título" />
-                        <TableColumn fx:id="col_director" prefWidth="125.0" text="Diretor" />
-                        <TableColumn fx:id="col_gender" prefWidth="153.0" text="Gênero" />
-                        <TableColumn fx:id="col_year" prefWidth="89.0" text="Ano" />
-                        <TableColumn fx:id="col_rating" prefWidth="86.0" text="Rating" />
+                      <TableColumn fx:id="col_id" prefWidth="27.0" resizable="false" text="ID" />
+                      <TableColumn fx:id="col_title" prefWidth="196.0" resizable="false" text="Título" />
+                        <TableColumn fx:id="col_director" prefWidth="129.0" resizable="false" text="Diretor" />
+                        <TableColumn fx:id="col_gender" prefWidth="140.0" resizable="false" text="Gênero" />
+                        <TableColumn fx:id="col_year" prefWidth="75.0" resizable="false" text="Ano" />
+                        <TableColumn fx:id="col_rating" prefWidth="52.0" resizable="false" text="Rating" />
                     </columns>
                      <effect>
                         <Blend />
@@ -64,11 +78,27 @@
                         </FontIcon>
                      </graphic>
                   </Label>
-                  <TextField fx:id="titleField" layoutX="261.0" layoutY="39.0" />
+                  <TextField fx:id="titleField" layoutX="261.0" layoutY="39.0" promptText="Pesquisar título..." />
                   <Button fx:id="searchButton" layoutX="417.0" layoutY="39.0" mnemonicParsing="false" onAction="#searchByTitle" style="-fx-background-color: #c7020c;" styleClass="searchButton" stylesheets="@app.css">
                      <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="fas-search" iconSize="16" text="" />
                      </graphic>
+                  </Button>
+                  <Button fx:id="buttonEdit" graphicTextGap="10.0" layoutX="279.0" layoutY="419.0" mnemonicParsing="false" onAction="#moveToRegister" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #c7020c;" text="Editar" textFill="WHITE">
+                     <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-pen" />
+                     </graphic>
+                     <font>
+                        <Font name="Nirmala UI Bold" size="15.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="buttonDelete" graphicTextGap="10.0" layoutX="479.0" layoutY="419.0" mnemonicParsing="false" onAction="#deleteMovie" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #c7020c;" text="Deletar" textFill="WHITE">
+                     <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-trash" />
+                     </graphic>
+                     <font>
+                        <Font name="Nirmala UI Bold" size="15.0" />
+                     </font>
                   </Button>
                </children></AnchorPane>
          </children>

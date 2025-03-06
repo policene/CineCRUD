@@ -148,7 +148,7 @@ public class MovieRegisterController implements Initializable {
                 movie.setGender(genderField.getValue().getDescription());
 
                 MovieService service = new MovieService(new MovieDAO());
-//                service.registerMovie(movie);
+                service.registerMovie(movie);
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Sucesso");
@@ -179,26 +179,32 @@ public class MovieRegisterController implements Initializable {
     }
 
     public void retornar(ActionEvent ev) throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Retornar");
-        alert.setHeaderText("");
-        alert.setContentText("Você deseja retornar? Todas as informações do formulário serão perdidas.");
-        if (alert.showAndWait().get() == ButtonType.OK){
+        if (isNull()){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/policene/cinecrud/app.fxml"));
             root = loader.load();
             stage = (Stage)((Node)ev.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Retornar");
+            alert.setHeaderText("");
+            alert.setContentText("Você deseja retornar? Todas as informações do formulário serão perdidas.");
+            if (alert.showAndWait().get() == ButtonType.OK){
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/policene/cinecrud/app.fxml"));
+                root = loader.load();
+                stage = (Stage)((Node)ev.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
         }
     }
 
-    public void returnAction (){
-
-    }
 
     public boolean isNull () {
-        return titleField.getText().isEmpty() || directorField.getText().isEmpty() || yearField.getText().isEmpty() || ratingField.getText().isEmpty() || genderField.getValue() == null;
+        return titleField.getText().isEmpty() && directorField.getText().isEmpty() && yearField.getText().isEmpty() && ratingField.getText().isEmpty() && genderField.getValue() == null;
     }
 
 

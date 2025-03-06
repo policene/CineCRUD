@@ -17,6 +17,23 @@
     -fx-alignment: center; /* Alinhamento do texto */
 }
 
-.searchButton :hover {
-    -fx-background-color: blue;
+.buttonRegister {
+    -fx-background-color: #a13333;
+    -fx-transition: all 0.3s ease; /* Transição de 0.3s */
+}
+
+.buttonRegister:hover {
+    -fx-scale-x: 1.05; /* Aumenta a escala */
+    -fx-scale-y: 1.05;
+    -fx-cursor: hand;
+}
+
+.buttonList {
+    -fx-background-color: #bf3939;
+}
+
+.buttonList:hover {
+    -fx-scale-x: 1.05; /* Aumenta a escala */
+    -fx-scale-y: 1.05;
+    -fx-cursor: hand;
 }
