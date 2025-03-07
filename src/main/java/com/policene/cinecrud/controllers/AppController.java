@@ -2,6 +2,7 @@ package com.policene.cinecrud.controllers;
 
 import com.policene.cinecrud.dao.MovieDAO;
 import com.policene.cinecrud.entities.Movie;
+import com.policene.cinecrud.service.MovieService;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -30,6 +32,12 @@ public class AppController implements Initializable {
 
     @FXML
     private Button buttonRegister;
+
+    @FXML
+    private Button buttonEdit;
+
+    @FXML
+    private Button buttonDelete;
 
     @FXML
     private Button searchButton;
@@ -62,6 +70,26 @@ public class AppController implements Initializable {
     private TableColumn<Movie, Integer> col_rating = new TableColumn<>();
 
 
+
+    @FXML
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        configureTableColumns();
+        loadData();
+
+        configureTableSelection();
+
+        titleField.textProperty().addListener((observable, oldValue, newValue) -> {
+            List<Movie> results = new MovieDAO().listByTitle(newValue);
+            ObservableList<Movie> observableResults = FXCollections.observableArrayList(results);
+            table.setItems(observableResults);
+        });
+
+
+
+    }
+
     @FXML
     void moveToRegister(ActionEvent ev) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/policene/cinecrud/movieRegister.fxml"));
@@ -75,18 +103,19 @@ public class AppController implements Initializable {
     }
 
     @FXML
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        configureTableColumns();
-        loadData();
+    void moveToEdit(ActionEvent ev) throws IOException {
+        Movie movieSelected = table.getSelectionModel().getSelectedItem();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/policene/cinecrud/movieEdit.fxml"));
+        root = loader.load();
 
-        titleField.textProperty().addListener((observable, oldValue, newValue) -> {
-            List<Movie> results = new MovieDAO().listByTitle(newValue);
-            ObservableList<Movie> observableResults = FXCollections.observableArrayList(results);
-            table.setItems(observableResults);
-        });
+        MovieEditController movieEditController = loader.getController();
+        movieEditController.setMovieToEdit(movieSelected);
 
-        titleField.setPromptText("Teste");
+        stage = (Stage)((Node)ev.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
     }
 
     @FXML
@@ -123,12 +152,25 @@ public class AppController implements Initializable {
             confirmacao.setHeaderText("Tem certeza que deseja excluir o filme?");
             confirmacao.setContentText(selectedMovie.getTitle() + " será removido permanentemente.");
             if (confirmacao.showAndWait().get() == ButtonType.OK){
-                new MovieDAO().delete(selectedMovie.getId());
+                new MovieService(new MovieDAO()).deleteMovie(selectedMovie.getId());
                 loadData();
             }
         }
 
     }
+
+    private void configureTableSelection() {
+        // Listener para quando um item é selecionado
+        table.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldSelection, newSelection) -> {
+                    if (newSelection != null) {
+                        buttonEdit.setVisible(true);
+                        buttonDelete.setVisible(true);
+                    }
+                }
+        );
+    }
+
 
 
 }

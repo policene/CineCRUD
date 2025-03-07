@@ -24,30 +24,22 @@ public class MovieService {
 
         dao.insert(movie);
     }
-//
-//    public void deleteMovie (Integer id) {
-//
-//        if (dao.findById(id) == null) {
-//            throw new MovieNotFoundException("ERROR: There's no movie with ID " + id + ".");
-//        }
-//
-//        dao.delete(id);
-//
-//    }
-//
-//    public void updateMovie (Movie movie) {
-//
-//        if (movie.getTitle().isEmpty() || movie.getTitle() == null) {
-//            throw new InvalidMovieException("ERROR: The title can't be null.");
-//        }
-//
-//        if (dao.findByTitle(movie.getTitle()) != null && dao.findByTitle(movie.getTitle()).getId() != movie.getId()){
-//            throw new ExistentMovieException("ERROR: The movie already exists on system.");
-//        }
-//
-//        dao.update(movie);
-//
-//    }
+
+    public void deleteMovie (Integer id) {
+
+        dao.delete(id);
+
+    }
+
+    public void updateMovie (Movie movie) {
+
+        if (dao.findByTitle(movie.getTitle()) != null && dao.findByTitle(movie.getTitle()).getId() != movie.getId()){
+            throw new ExistentMovieException("ERROR: The movie already exists on system.");
+        }
+
+        dao.update(movie);
+
+    }
 //
 //    public Movie findMovieById (Integer id) {
 //
@@ -86,47 +78,6 @@ public class MovieService {
 //        }
 //        return dao.listByYear(year);
 //    }
-//
-//    public List<Movie> orderByRatingAsc () {
-//        if (dao.orderByRatingAsc().isEmpty()) {
-//            throw new MovieNotFoundException("ERROR: There's no movies registered in database.");
-//        }
-//        return dao.orderByRatingAsc();
-//    }
-//
-//    public List<Movie> orderByRatingDesc () {
-//        if (dao.orderByRatingDesc().isEmpty()) {
-//            throw new MovieNotFoundException("ERROR: There's no movies registered in database.");
-//        }
-//        return dao.orderByRatingDesc();
-//    }
-//
-//    public List<Movie> orderByTitleAsc () {
-//        if (dao.orderByTitleAsc().isEmpty()) {
-//            throw new MovieNotFoundException("ERROR: There's no movies registered in database.");
-//        }
-//        return dao.orderByTitleAsc();
-//    }
-//
-//    public List<Movie> orderByTitleDesc () {
-//        if (dao.orderByTitleDesc().isEmpty()) {
-//            throw new MovieNotFoundException("ERROR: There's no movies registered in database.");
-//        }
-//        return dao.orderByTitleDesc();
-//    }
-//
-//    public List<Movie> orderByYearAsc () {
-//        if (dao.orderByYearAsc().isEmpty()) {
-//            throw new MovieNotFoundException("ERROR: There's no movies registered in database.");
-//        }
-//        return dao.orderByYearAsc();
-//    }
-//
-//    public List<Movie> orderByYearDesc () {
-//        if (dao.orderByYearDesc().isEmpty()) {
-//            throw new MovieNotFoundException("ERROR: There's no movies registered in database.");
-//        }
-//        return dao.orderByYearDesc();
-//    }
+
 
 }

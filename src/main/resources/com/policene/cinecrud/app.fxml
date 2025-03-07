@@ -19,13 +19,13 @@
          <children>
             <AnchorPane fx:id="lateralbar" prefHeight="480.0" prefWidth="165.0" styleClass="lateralbar" stylesheets="@app.css">
                <children>
-                  <Label layoutX="22.0" layoutY="25.0" prefHeight="60.0" prefWidth="121.0" text="CineCRUD" textAlignment="CENTER" textFill="WHITE">
+                  <Label layoutX="22.0" layoutY="26.0" prefHeight="60.0" prefWidth="121.0" text="CineCRUD" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Tw Cen MT Condensed Extra Bold" size="32.0" />
                      </font>
                   </Label>
                   <Line endX="100.0" layoutX="44.0" layoutY="72.0" startX="-28.5" stroke="WHITE" strokeWidth="2.0" />
-                  <Button fx:id="buttonRegister" graphicTextGap="10.0" layoutX="15.0" layoutY="130.0" mnemonicParsing="false" onAction="#moveToRegister" opacity="0.6" prefHeight="31.0" prefWidth="130.0" styleClass="buttonRegister" stylesheets="@app.css" text="Novo Filme" textFill="WHITE">
+                  <Button fx:id="buttonRegister" graphicTextGap="10.0" layoutX="17.0" layoutY="130.0" mnemonicParsing="false" onAction="#moveToRegister" opacity="0.6" prefHeight="31.0" prefWidth="130.0" styleClass="buttonRegister" stylesheets="@app.css" text="Novo Filme" textFill="WHITE">
                      <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
                      </graphic>
@@ -38,7 +38,7 @@
                         <Font name="Franklin Gothic Medium" size="14.0" />
                      </font>
                   </Label>
-                  <Button fx:id="buttonList" graphicTextGap="10.0" layoutX="15.0" layoutY="85.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="131.0" styleClass="buttonList" stylesheets="@app.css" text="Minha Lista" textFill="WHITE">
+                  <Button fx:id="buttonList" graphicTextGap="10.0" layoutX="17.0" layoutY="85.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="130.0" styleClass="buttonList" stylesheets="@app.css" text="Minha Lista" textFill="WHITE">
                      <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="fas-list" />
                      </graphic>
@@ -84,7 +84,7 @@
                         <FontIcon iconColor="WHITE" iconLiteral="fas-search" iconSize="16" text="" />
                      </graphic>
                   </Button>
-                  <Button fx:id="buttonEdit" graphicTextGap="10.0" layoutX="279.0" layoutY="419.0" mnemonicParsing="false" onAction="#moveToRegister" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #c7020c;" text="Editar" textFill="WHITE">
+                  <Button fx:id="buttonEdit" graphicTextGap="10.0" layoutX="156.0" layoutY="414.0" mnemonicParsing="false" onAction="#moveToEdit" prefHeight="31.0" prefWidth="105.0" styleClass="buttonEdit" stylesheets="@app.css" text="Editar" textFill="WHITE" visible="false">
                      <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="fas-pen" />
                      </graphic>
@@ -92,7 +92,7 @@
                         <Font name="Nirmala UI Bold" size="15.0" />
                      </font>
                   </Button>
-                  <Button fx:id="buttonDelete" graphicTextGap="10.0" layoutX="479.0" layoutY="419.0" mnemonicParsing="false" onAction="#deleteMovie" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #c7020c;" text="Deletar" textFill="WHITE">
+                  <Button fx:id="buttonDelete" graphicTextGap="10.0" layoutX="433.0" layoutY="414.0" mnemonicParsing="false" onAction="#deleteMovie" prefHeight="31.0" prefWidth="105.0" styleClass="buttonDelete" stylesheets="@app.css" text="Apagar" textFill="WHITE" visible="false">
                      <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="fas-trash" />
                      </graphic>

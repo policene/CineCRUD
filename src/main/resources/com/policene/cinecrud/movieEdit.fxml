@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Point3D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.policene.cinecrud.controllers.MovieEditController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <AnchorPane fx:id="lateralbar" prefHeight="480.0" prefWidth="165.0" styleClass="lateralbar" stylesheets="@app.css">
+               <children>
+                  <Label layoutX="23.0" layoutY="27.0" prefHeight="58.0" prefWidth="120.0" text="CineCRUD" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Tw Cen MT Condensed Extra Bold" size="32.0" />
+                     </font>
+                  </Label>
+                  <Line endX="100.0" layoutX="45.0" layoutY="72.0" startX="-28.5" stroke="WHITE" strokeWidth="2.0" />
+
+                  <Button fx:id="buttonRegister" graphicTextGap="10.0" layoutX="18.0" layoutY="130.0" mnemonicParsing="false" onAction="#moveToRegister" opacity="0.6" prefHeight="31.0" prefWidth="130.0" styleClass="buttonRegister" stylesheets="@movieEdit.css" text="Novo Filme" textFill="WHITE">
+                     <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
+                     </graphic>
+                     <font>
+                        <Font name="Nirmala UI Bold" size="15.0" />
+                     </font>
+                  </Button>
+                  <Label layoutX="44.0" layoutY="454.0" prefHeight="24.0" prefWidth="73.0" text="1.0.0-alpha " textFill="WHITE">
+                     <font>
+                        <Font name="Franklin Gothic Medium" size="14.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="buttonList" graphicTextGap="10.0" layoutX="18.0" layoutY="85.0" mnemonicParsing="false" onAction="#moveToList" opacity="0.6" prefHeight="31.0" prefWidth="130.0" styleClass="buttonList" stylesheets="@movieEdit.css" text="Minha Lista" textFill="WHITE">
+                     <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-list" />
+                     </graphic>
+                     <font>
+                        <Font name="Nirmala UI Bold" size="15.0" />
+                     </font>
+                  </Button>
+
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="165.0" prefHeight="480.0" prefWidth="687.0" style="-fx-background-color: white;">
+               <children>
+                  <Label graphicTextGap="10.0" layoutX="33.0" layoutY="33.0" text="EDITAR FILME" textFill="RED">
+                     <font>
+                        <Font name="Franklin Gothic Demi" size="30.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="RED" iconLiteral="fas-pen" rotate="2.3" selectionEnd="1">
+                           <rotationAxis>
+                              <Point3D />
+                           </rotationAxis>
+                        </FontIcon>
+                     </graphic>
+                  </Label>
+                  <TextField fx:id="titleField" layoutX="34.0" layoutY="113.0" />
+                  <TextField fx:id="directorField" layoutX="275.0" layoutY="113.0" />
+                  <TextField fx:id="yearField" layoutX="34.0" layoutY="167.0" />
+                  <TextField fx:id="ratingField" layoutX="34.0" layoutY="222.0" />
+                  <ChoiceBox fx:id="genderField" layoutX="275.0" layoutY="167.0" prefWidth="150.0" />
+                  <Label layoutX="34.0" layoutY="96.0" text="Título:" />
+                  <Label layoutX="275.0" layoutY="96.0" text="Diretor:" />
+                  <Label layoutX="34.0" layoutY="150.0" text="Ano:" />
+                  <Label layoutX="275.0" layoutY="150.0" text="Gênero:" />
+                  <Label layoutX="33.0" layoutY="205.0" text="Rating:" />
+                  <Button fx:id="buttonAdd" graphicTextGap="10.0" layoutX="559.0" layoutY="430.0" mnemonicParsing="false" onAction="#update" prefHeight="36.0" prefWidth="114.0" styleClass="buttonAdd" stylesheets="@movieRegister.css" text="Prosseguir" textFill="WHITE">
+                     <font>
+                        <Font name="Nirmala UI Bold" size="15.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="titleWarning" layoutX="70.0" layoutY="97.0" text="* Mínimo 3 caractéres." textFill="RED" visible="false">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="directorWarning" layoutX="317.0" layoutY="97.0" text="* Mínimo 4 caractéres." textFill="RED" visible="false">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="yearWarning" layoutX="61.0" layoutY="151.0" text="* Data inválida." textFill="RED" visible="false">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="ratingWarning" layoutX="73.0" layoutY="206.0" text="* Valor entre 0 a 100." textFill="RED" visible="false">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+               </children></AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

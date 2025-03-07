@@ -37,3 +37,27 @@
     -fx-scale-y: 1.05;
     -fx-cursor: hand;
 }
+
+.buttonEdit{
+    -fx-background-color: #c7020c;
+}
+
+.buttonEdit:hover {
+    -fx-background-color: #8a0108;
+    -fx-scale-x: 1.05; /* Aumenta a escala */
+    -fx-scale-y: 1.05;
+    -fx-cursor: hand;
+}
+
+.buttonDelete{
+    -fx-background-color: #c7020c;
+}
+
+
+.buttonDelete:hover {
+    -fx-background-color: #8a0108;
+    -fx-scale-x: 1.05; /* Aumenta a escala */
+    -fx-scale-y: 1.05;
+    -fx-cursor: hand;
+}
+

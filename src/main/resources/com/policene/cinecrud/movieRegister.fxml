@@ -24,7 +24,7 @@
                   </Label>
                   <Line endX="100.0" layoutX="45.0" layoutY="72.0" startX="-28.5" stroke="WHITE" strokeWidth="2.0" />
 
-                  <Button fx:id="buttonRegister" graphicTextGap="10.0" layoutX="16.0" layoutY="130.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="130.0" styleClass="buttonRegister" stylesheets="@movieRegister.css" text="Novo Filme" textFill="WHITE">
+                  <Button fx:id="buttonRegister" graphicTextGap="10.0" layoutX="18.0" layoutY="130.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="130.0" styleClass="buttonRegister" stylesheets="@movieRegister.css" text="Novo Filme" textFill="WHITE">
                      <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
                      </graphic>
@@ -37,7 +37,7 @@
                         <Font name="Franklin Gothic Medium" size="14.0" />
                      </font>
                   </Label>
-                  <Button fx:id="buttonList" graphicTextGap="10.0" layoutX="16.0" layoutY="85.0" mnemonicParsing="false" onAction="#retornar" opacity="0.6" prefHeight="31.0" prefWidth="131.0" styleClass="buttonList" stylesheets="@movieRegister.css" text="Minha Lista" textFill="WHITE">
+                  <Button fx:id="buttonList" graphicTextGap="10.0" layoutX="18.0" layoutY="85.0" mnemonicParsing="false" onAction="#retornar" opacity="0.6" prefHeight="31.0" prefWidth="131.0" styleClass="buttonList" stylesheets="@movieRegister.css" text="Minha Lista" textFill="WHITE">
                      <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="fas-list" />
                      </graphic>
