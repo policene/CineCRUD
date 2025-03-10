@@ -38,4 +38,4 @@ build/
 .DS_Store
 
 ### Pasta do artefato .jar
-/out
+out/
