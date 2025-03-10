@@ -55,12 +55,12 @@
                         <Label text="Nenhum filme encontrado." />
                      </placeholder>
                     <columns>
-                      <TableColumn fx:id="col_id" prefWidth="27.0" resizable="false" text="ID" />
-                      <TableColumn fx:id="col_title" prefWidth="196.0" resizable="false" text="Título" />
-                        <TableColumn fx:id="col_director" prefWidth="129.0" resizable="false" text="Diretor" />
-                        <TableColumn fx:id="col_gender" prefWidth="140.0" resizable="false" text="Gênero" />
-                        <TableColumn fx:id="col_year" prefWidth="75.0" resizable="false" text="Ano" />
-                        <TableColumn fx:id="col_rating" prefWidth="52.0" resizable="false" text="Rating" />
+                      <TableColumn fx:id="col_id" prefWidth="34.0" resizable="false" text="ID" />
+                      <TableColumn fx:id="col_title" prefWidth="174.0" resizable="false" text="Título" />
+                        <TableColumn fx:id="col_director" prefWidth="138.0" resizable="false" text="Diretor" />
+                        <TableColumn fx:id="col_gender" prefWidth="138.0" resizable="false" text="Gênero" />
+                        <TableColumn fx:id="col_year" prefWidth="73.0" resizable="false" text="Ano" />
+                        <TableColumn fx:id="col_rating" prefWidth="62.0" resizable="false" text="Rating" />
                     </columns>
                      <effect>
                         <Blend />
