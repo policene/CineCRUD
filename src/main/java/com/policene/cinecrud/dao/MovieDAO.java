@@ -1,6 +1,6 @@
 package com.policene.cinecrud.dao;
 
-import com.policene.cinecrud.config.ConnectionFabric;
+import com.policene.cinecrud.config.DatabaseConnection;
 import com.policene.cinecrud.entities.Movie;
 import com.policene.cinecrud.entities.Movie;
 import javafx.collections.FXCollections;
@@ -15,12 +15,12 @@ public class MovieDAO {
     public Connection connection;
 
     public MovieDAO(){
-        connection = ConnectionFabric.createConnection();
+        connection = new DatabaseConnection().getConnection();
     }
 
     public void insert (Movie movie) {
         try {
-            String sql = "INSERT INTO movies (title, director, year, rating, gender) VALUE (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO movies (title, director, year, rating, gender) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, movie.getTitle());
             statement.setString(2, movie.getDirector());
@@ -39,7 +39,7 @@ public class MovieDAO {
     public void update (Movie movie) {
 
         try {
-            String sql = "UPDATE movies SET title = ?, director = ?, year = ?, rating = ?, gender = ? WHERE idmovies = ?";
+            String sql = "UPDATE movies SET title = ?, director = ?, year = ?, rating = ?, gender = ? WHERE id = ?";
 
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, movie.getTitle());
@@ -59,7 +59,7 @@ public class MovieDAO {
 
     public void delete (Integer id) {
         try {
-            String sql = "DELETE FROM movies WHERE idmovies = ?";
+            String sql = "DELETE FROM movies WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
             int rowsDeleted = statement.executeUpdate();
@@ -83,7 +83,7 @@ public class MovieDAO {
 
             while (resultSet.next()) {
                 Movie movie = new Movie();
-                movie.setId(resultSet.getInt("idmovies"));
+                movie.setId(resultSet.getInt("id"));
                 movie.setTitle(resultSet.getString("title"));
                 movie.setDirector(resultSet.getString("director"));
                 movie.setYear(String.valueOf(resultSet.getInt("year")));
@@ -108,7 +108,7 @@ public class MovieDAO {
 
             if (resultSet.next()) {
                 movie = new Movie();
-                movie.setId(resultSet.getInt("idmovies"));
+                movie.setId(resultSet.getInt("id"));
                 movie.setTitle(resultSet.getString("title"));
                 movie.setDirector(resultSet.getString("director"));
                 movie.setYear(String.valueOf(resultSet.getInt("year")));
@@ -131,7 +131,7 @@ public class MovieDAO {
             ResultSet rs = statement.executeQuery();
             while (rs.next()){
                 Movie movie = new Movie();
-                movie.setId(rs.getInt("idmovies"));
+                movie.setId(rs.getInt("id"));
                 movie.setTitle(rs.getString("title"));
                 movie.setDirector(rs.getString("director"));
                 movie.setGender(rs.getString("gender"));

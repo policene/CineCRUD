@@ -1,5 +1,6 @@
 package com.policene.cinecrud;
 
+import com.policene.cinecrud.config.DatabaseConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -8,6 +9,9 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class App extends Application {
     @Override
