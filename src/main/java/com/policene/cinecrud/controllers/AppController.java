@@ -4,6 +4,8 @@ import com.policene.cinecrud.dao.MovieDAO;
 import com.policene.cinecrud.entities.Movie;
 import com.policene.cinecrud.service.MovieService;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,11 +16,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.kordamp.ikonli.javafx.FontIcon;
 
+
+import javax.swing.event.ChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -30,8 +33,12 @@ public class AppController implements Initializable {
     private Scene scene;
     private Parent root;
 
+    private boolean isSelected = false;
+
+    private MovieService service = new MovieService(new MovieDAO());
+
     @FXML
-    private Button buttonRegister;
+    private FontIcon iconFilter;
 
     @FXML
     private Button buttonEdit;
@@ -40,16 +47,16 @@ public class AppController implements Initializable {
     private Button buttonDelete;
 
     @FXML
-    private Button searchButton;
-
-    @FXML
     private TextField titleField;
 
     @FXML
-    private AnchorPane lateralbar;
+    private TextField directorField;
 
     @FXML
-    private TableView<Movie> table = new TableView<Movie>();
+    private AnchorPane filterPanel;
+
+    @FXML
+    private TableView<Movie> table = new TableView<>();
 
     @FXML
     private TableColumn<Movie, Integer> col_id = new TableColumn<>();
@@ -67,27 +74,80 @@ public class AppController implements Initializable {
     private TableColumn<Movie, Integer> col_year = new TableColumn<>();
 
     @FXML
-    private TableColumn<Movie, Integer> col_rating = new TableColumn<>();
+    private TableColumn<Movie, Integer> col_rating_bar;
 
+    @FXML
+    private Slider minRatingField;
+
+    @FXML
+    private Slider maxRatingField;
 
 
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         configureTableColumns();
-        loadData();
-
         configureTableSelection();
+        loadData();
+        setupSearchFilters();
+    }
 
+//    public void adjustRatingField () {
+//
+//
+//        minRatingField.valueProperty().addListener(new ChangeListener<Number>() {
+//
+//            @Override
+//            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+//                int minRating = (int) minRatingField.getValue();
+//                int maxRating = (int) maxRatingField.getValue();
+//                List<Movie> results = new MovieService(new MovieDAO()).listByRating(minRating, maxRating);
+//                ObservableList<Movie> observableResults = FXCollections.observableArrayList(results);
+//                table.setItems(observableResults);
+//            }
+//        });
+//
+//        maxRatingField.valueProperty().addListener(new ChangeListener<Number>() {
+//
+//            @Override
+//            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+//                int maxRating = (int) maxRatingField.getValue();
+//                int minRating = (int) minRatingField.getValue();
+//                List<Movie> results = new MovieService(new MovieDAO()).listByRating(minRating, maxRating);
+//                ObservableList<Movie> observableResults = FXCollections.observableArrayList(results);
+//                table.setItems(observableResults);
+//            }
+//        });
+//    }
+
+    public void setupSearchFilters() {
         titleField.textProperty().addListener((observable, oldValue, newValue) -> {
-            List<Movie> results = new MovieDAO().listByTitle(newValue);
-            ObservableList<Movie> observableResults = FXCollections.observableArrayList(results);
-            table.setItems(observableResults);
+            performCombinedSearch();
         });
 
+        directorField.textProperty().addListener((observable, oldValue, newValue) -> {
+            performCombinedSearch();
+        });
 
+        minRatingField.valueProperty().addListener((observable, oldValue, newValue) -> {
+            performCombinedSearch();
+        });
 
+        maxRatingField.valueProperty().addListener((observable, oldValue, newValue) -> {
+            performCombinedSearch();
+        });
+    }
+
+    public void performCombinedSearch() {
+        String titleQuery = titleField.getText().trim();
+        String directorQuery = directorField.getText().trim();
+        int minRating = (int) minRatingField.getValue();
+        int maxRating = (int) maxRatingField.getValue();
+
+        List<Movie> results = new MovieDAO().searchMovies(titleQuery, directorQuery, minRating, maxRating);
+
+        ObservableList<Movie> observableResults = FXCollections.observableArrayList(results);
+        table.setItems(observableResults);
     }
 
     @FXML
@@ -125,23 +185,61 @@ public class AppController implements Initializable {
         col_director.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getDirector()));
         col_gender.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getGender()));
         col_year.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getYear()));
-        col_rating.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getRating()));
+        col_rating_bar.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getRating()));
+        col_rating_bar.setCellFactory(param -> new TableCell<Movie, Integer>() {
+            private final ProgressBar progressBar = new ProgressBar();
+
+            @Override
+            protected void updateItem(Integer rating, boolean empty) {
+                super.updateItem(rating, empty);
+
+                if (empty || rating == null) {
+                    setGraphic(null);
+                } else {
+                    progressBar.setPrefWidth(80);
+                    progressBar.setPrefHeight(11);
+
+
+                    double progress = rating / 100.0;
+                    String colorStyle;
+
+                    if (rating <= 10) {
+                        colorStyle = "-fx-accent: #8B0000;"; // Vermelho escuro
+                    } else if (rating <= 20) {
+                        colorStyle = "-fx-accent: #FF0000;"; // Vermelho
+                    } else if (rating <= 30) {
+                        colorStyle = "-fx-accent: #FF4500;"; // Laranja avermelhado
+                    } else if (rating <= 40) {
+                        colorStyle = "-fx-accent: #FF8C00;"; // Laranja escuro
+                    } else if (rating <= 50) {
+                        colorStyle = "-fx-accent: #FFA500;"; // Laranja
+                    } else if (rating <= 60) {
+                        colorStyle = "-fx-accent: #FFD700;"; // Amarelo dourado
+                    } else if (rating <= 70) {
+                        colorStyle = "-fx-accent: #ADFF2F;"; // Verde amarelado
+                    } else if (rating <= 80) {
+                        colorStyle = "-fx-accent: #32CD32;"; // Verde limão
+                    } else if (rating <= 90) {
+                        colorStyle = "-fx-accent: #008000;"; // Verde
+                    } else {
+                        colorStyle = "-fx-accent: #006400;"; // Verde escuro
+                    }
+
+                    progressBar.setStyle(colorStyle);
+                    progressBar.setProgress(progress);
+                    setGraphic(progressBar);
+                }
+            }
+        });
+
+
     }
 
     @FXML
     void loadData(){
-        table.setItems(new MovieDAO().showAll());
+        table.setItems(service.showAllOrderingByTitle());
     }
 
-    @FXML
-    void searchByTitle(ActionEvent event) {
-        String termoBusca = titleField.getText();
-        List<Movie> resultados = new MovieDAO().listByTitle(termoBusca);
-
-        // Converte a lista para ObservableList e atualiza a TableView
-        ObservableList<Movie> resultadosObservaveis = FXCollections.observableArrayList(resultados);
-        table.setItems(resultadosObservaveis);
-    }
 
     @FXML
     void deleteMovie(ActionEvent ev){
@@ -170,6 +268,28 @@ public class AppController implements Initializable {
                 }
         );
     }
+
+
+    @FXML
+    private void showAllFilters(ActionEvent ev) {
+        if (isSelected) {
+            table.setLayoutY(130);
+            filterPanel.setVisible(false);
+            directorField.visibleProperty().setValue(false);
+            directorField.setVisible(false);
+            iconFilter.rotateProperty().setValue(0);
+            isSelected = false;
+        } else {
+            table.setLayoutY(200);
+            filterPanel.setVisible(true);
+            directorField.setVisible(true);
+            iconFilter.rotateProperty().setValue(180);
+            isSelected = true;
+        }
+    }
+
+
+
 
 
 

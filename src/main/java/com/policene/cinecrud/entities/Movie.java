@@ -67,7 +67,7 @@ public class Movie {
 
     public void setRating(String stringRating) {
 
-        Pattern pattern = Pattern.compile("^\\d{2,3}$");
+        Pattern pattern = Pattern.compile("^\\d{1,3}$");
         if (!pattern.matcher(stringRating).find()) {
             throw new IllegalArgumentException("ERROR: Rating must contain only numbers.");
         }

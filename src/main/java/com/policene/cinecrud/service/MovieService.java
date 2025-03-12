@@ -5,6 +5,7 @@ import com.policene.cinecrud.entities.Movie;
 import com.policene.cinecrud.exceptions.ExistentMovieException;
 import com.policene.cinecrud.exceptions.InvalidMovieException;
 import com.policene.cinecrud.exceptions.MovieNotFoundException;
+import javafx.collections.ObservableList;
 
 import java.util.List;
 
@@ -59,18 +60,25 @@ public class MovieService {
 //    }
 //
     public List<Movie> listByTitle (String title) {
-        if (dao.listByTitle(title).isEmpty()) {
-            throw new MovieNotFoundException("ERROR: There's no movies registered with that title.");
-        }
         return dao.listByTitle(title);
     }
-//
-//    public List<Movie> listByDirector(String director) {
-//        if (dao.listByDirector(director).isEmpty()) {
-//            throw new MovieNotFoundException("ERROR: There's no movies registered with that director.");
-//        }
-//        return dao.listByDirector(director);
-//    }
+
+    public List<Movie> listByDirector(String director) {
+        return dao.listByDirector(director);
+    }
+
+    public List<Movie> searchMovies(String title, String director, int minRating, int maxRating) {
+        return dao.searchMovies(title, director, minRating, maxRating);
+    }
+
+    public ObservableList<Movie> showAllOrderingByTitle () {
+        return dao.showAllOrderingByTitle();
+    }
+
+    public List<Movie> listByRating(Integer minRating, Integer maxRating) {
+        return dao.listByRating(minRating, maxRating);
+    }
+
 //
 //    public List<Movie> listByYear (Integer year) {
 //        if (dao.listByYear(year).isEmpty()) {

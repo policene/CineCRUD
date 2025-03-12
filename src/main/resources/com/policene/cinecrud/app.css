@@ -61,3 +61,9 @@
     -fx-cursor: hand;
 }
 
+.filterPane {
+    -fx-background-color: #f3f3f3;
+    -fx-background-radius: 3px;
+
+}
+
