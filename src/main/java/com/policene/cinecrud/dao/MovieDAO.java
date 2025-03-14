@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,6 @@ public class MovieDAO {
     }
 
     public void update (Movie movie) {
-
         try {
             String sql = "UPDATE movies SET title = ?, director = ?, year = ?, rating = ?, gender = ? WHERE id = ?";
 
@@ -74,88 +74,6 @@ public class MovieDAO {
         }
     }
 
-    public List<Movie> listByTitle(String title) {
-        List<Movie> registers = new ArrayList<>();
-
-        try {
-            String sql = "SELECT * FROM movies WHERE title LIKE ? ORDER BY title ASC";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, "%" + title + "%");
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Movie movie = new Movie();
-                movie.setId(resultSet.getInt("id"));
-                movie.setTitle(resultSet.getString("title"));
-                movie.setDirector(resultSet.getString("director"));
-                movie.setYear(String.valueOf(resultSet.getInt("year")));
-                movie.setRating(String.valueOf(resultSet.getInt("rating")));
-                movie.setGender(resultSet.getString("gender"));
-                registers.add(movie);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return registers;
-    }
-
-    public List<Movie> listByDirector(String director) {
-        List<Movie> registers = new ArrayList<>();
-
-        try {
-            String sql = "SELECT * FROM movies WHERE director LIKE ? ORDER BY title ASC";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, "%" + director + "%");
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Movie movie = new Movie();
-                movie.setId(resultSet.getInt("id"));
-                movie.setTitle(resultSet.getString("title"));
-                movie.setDirector(resultSet.getString("director"));
-                movie.setYear(String.valueOf(resultSet.getInt("year")));
-                movie.setRating(String.valueOf(resultSet.getInt("rating")));
-                movie.setGender(resultSet.getString("gender"));
-                registers.add(movie);
-            }
-            connection.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return registers;
-    }
-
-    public List<Movie> listByRating(Integer minRating, Integer maxRating) {
-        List<Movie> registers = new ArrayList<>();
-
-        try {
-            String sql = "SELECT * FROM movies WHERE rating >= ? AND rating <= ? ORDER BY title ASC";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, minRating);
-            statement.setInt(2, maxRating);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Movie movie = new Movie();
-                movie.setId(resultSet.getInt("id"));
-                movie.setTitle(resultSet.getString("title"));
-                movie.setDirector(resultSet.getString("director"));
-                movie.setYear(String.valueOf(resultSet.getInt("year")));
-                movie.setRating(String.valueOf(resultSet.getInt("rating")));
-                movie.setGender(resultSet.getString("gender"));
-                registers.add(movie);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return registers;
-    }
 
     public Movie findByTitle(String title) {
         Movie movie = null;
@@ -182,7 +100,7 @@ public class MovieDAO {
         return movie;
     }
 
-    public ObservableList<Movie> showAllOrderingByTitle () {
+    public ObservableList<Movie> listAll () {
         ObservableList<Movie> movies = FXCollections.observableArrayList();
         String sql = "SELECT * from movies ORDER by title ASC";
         try {
@@ -205,12 +123,16 @@ public class MovieDAO {
     }
 
 
-    public List<Movie> searchMovies(String title, String director, int minRating, int maxRating) {
+    public List<Movie> searchMovies(String title, String director, int minRating, int maxRating, int minYear, int maxYear, String gender) {
 
         // Cria o array de filmes que deve ser retornado.
         List<Movie> registers = new ArrayList<>();
 
         try {
+            // A query 1=1 é uma query básica apenas para que a primeira validação seja verdadeira,
+            // e a query não quebre.
+
+            // Usamos StringBuilder para adicionar mais dados para a nossa query se preciso.
             StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM movies WHERE 1=1");
             List<Object> params = new ArrayList<>();
 
@@ -227,19 +149,34 @@ public class MovieDAO {
 
             if (minRating > 0) {
                 sqlBuilder.append(" AND rating >= ?");
-                params.add(minRating); // Adiciona o valor à lista de parâmetros
+                params.add(minRating);
             }
 
             if (maxRating < 100) {
                 sqlBuilder.append(" AND rating <= ?");
-                params.add(maxRating); // Adiciona o valor à lista de parâmetros
+                params.add(maxRating);
+            }
+
+            if (minYear > 1895) {
+                sqlBuilder.append(" AND year >= ?");
+                params.add(minYear);
+            }
+
+            if (maxYear < Year.now().getValue()) {
+                sqlBuilder.append(" AND year <= ?");
+                params.add(maxYear);
+            }
+
+            if (gender != null && !gender.isEmpty()) {
+                sqlBuilder.append(" AND gender == ?");
+                params.add(gender);
             }
 
             sqlBuilder.append(" ORDER BY title ASC");
 
             PreparedStatement statement = connection.prepareStatement(sqlBuilder.toString());
 
-            // Definir os parâmetros
+            // Definir os parâmetros.
             for (int i = 0; i < params.size(); i++) {
                 if (params.get(i) instanceof String) {
                     statement.setString(i + 1, (String) params.get(i));
@@ -263,12 +200,9 @@ public class MovieDAO {
             }
             resultSet.close();
             statement.close();
-
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return registers;
     }
 

@@ -1,11 +1,10 @@
 package com.policene.cinecrud.controllers;
 
 import com.policene.cinecrud.dao.MovieDAO;
+import com.policene.cinecrud.entities.Gender;
 import com.policene.cinecrud.entities.Movie;
 import com.policene.cinecrud.service.MovieService;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,107 +17,98 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import org.kordamp.ikonli.javafx.FontIcon;
-
-
-import javax.swing.event.ChangeEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.time.Year;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class AppController implements Initializable {
 
+    // Variáveis padrão para trocar de tela.
     private Stage stage;
     private Scene scene;
     private Parent root;
 
     private boolean isSelected = false;
 
-    private MovieService service = new MovieService(new MovieDAO());
+    // Service.
+    private final MovieService service = new MovieService(new MovieDAO());
 
+    // Elementos FXML da barra lateral.
+
+    // Elementos FXML da TableView.
     @FXML
-    private FontIcon iconFilter;
+    private TableView<Movie> table = new TableView<>();
+    @FXML
+    private TableColumn<Movie, Integer> col_id = new TableColumn<>();
+    @FXML
+    private TableColumn<Movie, String> col_title = new TableColumn<>();
+    @FXML
+    private TableColumn<Movie, String> col_director = new TableColumn<>();
+    @FXML
+    private TableColumn<Movie, String> col_gender = new TableColumn<>();
+    @FXML
+    private TableColumn<Movie, Integer> col_year = new TableColumn<>();
+    @FXML
+    private TableColumn<Movie, Integer> col_rating_bar = new TableColumn<>();
 
+    // Elementos FXML da parte inferior.
     @FXML
     private Button buttonEdit;
-
     @FXML
     private Button buttonDelete;
 
-    @FXML
-    private TextField titleField;
-
-    @FXML
-    private TextField directorField;
-
+    // Elementos FXML do espaço de filtros.
     @FXML
     private AnchorPane filterPanel;
-
     @FXML
-    private TableView<Movie> table = new TableView<>();
-
+    private TextField titleField;
     @FXML
-    private TableColumn<Movie, Integer> col_id = new TableColumn<>();
-
+    private TextField directorField;
     @FXML
-    private TableColumn<Movie, String> col_title = new TableColumn<>();
-
+    private TextField minRatingField;
     @FXML
-    private TableColumn<Movie, String> col_director = new TableColumn<>();
-
+    private TextField maxRatingField;
     @FXML
-    private TableColumn<Movie, String> col_gender = new TableColumn<>();
-
+    private TextField minYearField;
     @FXML
-    private TableColumn<Movie, Integer> col_year = new TableColumn<>();
-
+    private TextField maxYearField;
     @FXML
-    private TableColumn<Movie, Integer> col_rating_bar;
+    private ChoiceBox<Gender> genderField;
 
+
+    // Elementos FXML da parte superior.
     @FXML
-    private Slider minRatingField;
-
+    private FontIcon iconButtonFilters;
     @FXML
-    private Slider maxRatingField;
+    private Button buttonFilters;
+    @FXML
+    private Button buttonResetFilters;
 
 
+    // Função de inicialização da cena.
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         configureTableColumns();
         configureTableSelection();
         loadData();
+        configureToolTips();
         setupSearchFilters();
+
     }
 
-//    public void adjustRatingField () {
-//
-//
-//        minRatingField.valueProperty().addListener(new ChangeListener<Number>() {
-//
-//            @Override
-//            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-//                int minRating = (int) minRatingField.getValue();
-//                int maxRating = (int) maxRatingField.getValue();
-//                List<Movie> results = new MovieService(new MovieDAO()).listByRating(minRating, maxRating);
-//                ObservableList<Movie> observableResults = FXCollections.observableArrayList(results);
-//                table.setItems(observableResults);
-//            }
-//        });
-//
-//        maxRatingField.valueProperty().addListener(new ChangeListener<Number>() {
-//
-//            @Override
-//            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-//                int maxRating = (int) maxRatingField.getValue();
-//                int minRating = (int) minRatingField.getValue();
-//                List<Movie> results = new MovieService(new MovieDAO()).listByRating(minRating, maxRating);
-//                ObservableList<Movie> observableResults = FXCollections.observableArrayList(results);
-//                table.setItems(observableResults);
-//            }
-//        });
-//    }
+    // Função que configura as 'tips' de botões ao passar o mouse sobre.
+    public void configureToolTips () {
+        Tooltip tipButtonFilters = new Tooltip("Exibir mais filtros de pesquisa.");
+        buttonFilters.setTooltip(tipButtonFilters);
+
+        Tooltip tipResetButtonFilters = new Tooltip("Remover filtros de pesquisa.");
+        buttonResetFilters.setTooltip(tipResetButtonFilters);
+    }
 
     public void setupSearchFilters() {
         titleField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -129,22 +119,128 @@ public class AppController implements Initializable {
             performCombinedSearch();
         });
 
-        minRatingField.valueProperty().addListener((observable, oldValue, newValue) -> {
-            performCombinedSearch();
+        minRatingField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                minRatingField.setStyle("");
+                maxRatingField.setStyle("");
+                if (newValue.isEmpty()){
+                    minRatingField.setStyle("-fx-border-color: red;");
+                } else {
+                    int valor = Integer.parseInt(newValue);
+                    int valorMaxRating = Integer.parseInt(maxRatingField.getText());
+                    if (valor > valorMaxRating){
+                        minRatingField.setStyle("-fx-border-color: red;");
+                        maxRatingField.setStyle("-fx-border-color: red;");
+                    } else {
+                        performCombinedSearch();
+                    }
+                }
+            } catch (Exception ex) {
+                minRatingField.setText(oldValue);
+            }
         });
 
-        maxRatingField.valueProperty().addListener((observable, oldValue, newValue) -> {
-            performCombinedSearch();
+        maxRatingField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                minRatingField.setStyle("");
+                maxRatingField.setStyle("");
+                if (newValue.isEmpty()){
+                    maxRatingField.setStyle("-fx-border-color: red;");
+                } else {
+                    int valor = Integer.parseInt(newValue);
+                    int valorMinRating = Integer.parseInt(minRatingField.getText());
+                    if (valor < valorMinRating){
+                        minRatingField.setStyle("-fx-border-color: red;");
+                        maxRatingField.setStyle("-fx-border-color: red;");
+                    } else {
+                        performCombinedSearch();
+                    }
+                }
+            } catch (Exception ex) {
+                maxRatingField.setText(oldValue);
+            }
+
+        });
+
+
+        minYearField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                minYearField.setStyle("");
+                maxYearField.setStyle("");
+                if (newValue.isEmpty() || Integer.parseInt(newValue) < 1895){
+                    minYearField.setStyle("-fx-border-color: red;");
+                } else {
+                    int year = Integer.parseInt(newValue);
+                    int maxYear = Integer.parseInt(maxYearField.getText());
+                    if (year > maxYear){
+                        minYearField.setStyle("-fx-border-color: red;");
+                        maxYearField.setStyle("-fx-border-color: red;");
+                    } else {
+                        performCombinedSearch();
+                    }
+                }
+            } catch (Exception ex) {
+                minYearField.setText(oldValue);
+            }
+
+        });
+
+        maxYearField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                minYearField.setStyle("");
+                maxYearField.setStyle("");
+                if (newValue.isEmpty() || Integer.parseInt(newValue) > Year.now().getValue()){
+                    maxYearField.setStyle("-fx-border-color: red;");
+                } else {
+                    int year = Integer.parseInt(newValue);
+                    int minYear = Integer.parseInt(minYearField.getText());
+                    if (year < minYear){
+                        minYearField.setStyle("-fx-border-color: red;");
+                        maxYearField.setStyle("-fx-border-color: red;");
+                    } else {
+                        performCombinedSearch();
+                    }
+                }
+            } catch (Exception ex) {
+                maxYearField.setText(oldValue);
+            }
+
+        });
+
+
+        genderField.getItems().addAll(Gender.values());
+        genderField.setConverter(new StringConverter<Gender>() {
+            @Override
+            public String toString(Gender gender) {
+                return gender != null ? gender.getDescription() : "";
+            }
+
+            @Override
+            public Gender fromString(String string) {
+                return Gender.verifyGender(string);
+            }
+        });
+
+        genderField.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                performCombinedSearch();
+            }
         });
     }
 
     public void performCombinedSearch() {
         String titleQuery = titleField.getText().trim();
         String directorQuery = directorField.getText().trim();
-        int minRating = (int) minRatingField.getValue();
-        int maxRating = (int) maxRatingField.getValue();
+        int minRating = Integer.parseInt(minRatingField.getText().trim());
+        int maxRating = Integer.parseInt(maxRatingField.getText().trim());
+        int minYear = Integer.parseInt(minYearField.getText().trim());
+        int maxYear = Integer.parseInt(maxYearField.getText().trim());
+        String gender = null;
+        if (genderField.getValue() != null){
+            gender = genderField.getValue().getDescription();
+        }
 
-        List<Movie> results = new MovieDAO().searchMovies(titleQuery, directorQuery, minRating, maxRating);
+        List<Movie> results = service.searchMovies(titleQuery, directorQuery, minRating, maxRating, minYear, maxYear, gender);
 
         ObservableList<Movie> observableResults = FXCollections.observableArrayList(results);
         table.setItems(observableResults);
@@ -153,7 +249,6 @@ public class AppController implements Initializable {
     @FXML
     void moveToRegister(ActionEvent ev) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/policene/cinecrud/movieRegister.fxml"));
-
         root = loader.load();
         stage = (Stage)((Node)ev.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -162,21 +257,7 @@ public class AppController implements Initializable {
 
     }
 
-    @FXML
-    void moveToEdit(ActionEvent ev) throws IOException {
-        Movie movieSelected = table.getSelectionModel().getSelectedItem();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/policene/cinecrud/movieEdit.fxml"));
-        root = loader.load();
 
-        MovieEditController movieEditController = loader.getController();
-        movieEditController.setMovieToEdit(movieSelected);
-
-        stage = (Stage)((Node)ev.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-
-    }
 
     @FXML
     void configureTableColumns(){
@@ -204,7 +285,7 @@ public class AppController implements Initializable {
                     String colorStyle;
 
                     if (rating <= 10) {
-                        colorStyle = "-fx-accent: #8B0000;"; // Vermelho escuro
+                        colorStyle = "-fx-accent: #8B0000;";
                     } else if (rating <= 20) {
                         colorStyle = "-fx-accent: #FF0000;"; // Vermelho
                     } else if (rating <= 30) {
@@ -235,14 +316,26 @@ public class AppController implements Initializable {
 
     }
 
+    // Função para o botão de editar um filme selecionado.
     @FXML
-    void loadData(){
-        table.setItems(service.showAllOrderingByTitle());
+    void editMovie(ActionEvent ev) throws IOException {
+        Movie movieSelected = table.getSelectionModel().getSelectedItem();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/policene/cinecrud/movieEdit.fxml"));
+        root = loader.load();
+
+        MovieEditController movieEditController = loader.getController();
+        movieEditController.setMovieToEdit(movieSelected);
+
+        stage = (Stage)((Node)ev.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
     }
 
-
+    // Função para o botão de deletar um filme selecionado.
     @FXML
-    void deleteMovie(ActionEvent ev){
+    void deleteMovie(){
         Movie selectedMovie = table.getSelectionModel().getSelectedItem();
         if (selectedMovie != null){
             Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION);
@@ -254,11 +347,16 @@ public class AppController implements Initializable {
                 loadData();
             }
         }
-
     }
 
+    // Função para carregar os dados na TableView inicialmente.
+    @FXML
+    void loadData(){
+        table.setItems(service.listAll());
+    }
+
+    // Função para exibir os botões de 'Editar' e 'Deletar' quando um filme for selecionado.
     private void configureTableSelection() {
-        // Listener para quando um item é selecionado
         table.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, newSelection) -> {
                     if (newSelection != null) {
@@ -269,23 +367,40 @@ public class AppController implements Initializable {
         );
     }
 
-
+    // Função para o botão que abre a tela com todos os filtros de pesquisa disponíveis.
     @FXML
-    private void showAllFilters(ActionEvent ev) {
+    private void showAllFilters() {
         if (isSelected) {
+            buttonFilters.setStyle("-fx-background-insets: 0;");
             table.setLayoutY(130);
             filterPanel.setVisible(false);
             directorField.visibleProperty().setValue(false);
             directorField.setVisible(false);
-            iconFilter.rotateProperty().setValue(0);
+            iconButtonFilters.rotateProperty().setValue(0);
+            buttonFilters.setStyle("-fx-background-color:  #d30101");
             isSelected = false;
         } else {
-            table.setLayoutY(200);
+            table.setLayoutY(180);
             filterPanel.setVisible(true);
             directorField.setVisible(true);
-            iconFilter.rotateProperty().setValue(180);
+            iconButtonFilters.rotateProperty().setValue(180);
+            buttonFilters.setStyle("-fx-background-insets: 0;");
+            buttonFilters.setStyle("-fx-background-color:  #8a0108");
             isSelected = true;
         }
+    }
+
+    // Função para o botão que limpa os filtros de pesquisa para o padrão.
+    @FXML
+    private void clearAllFilters() {
+        titleField.setText("");
+        directorField.setText("");
+        minRatingField.setText("0");
+        maxRatingField.setText("100");
+        minYearField.setText("1895");
+        maxYearField.setText(Year.now().toString());
+        genderField.setValue(null);
+        loadData();
     }
 
 

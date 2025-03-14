@@ -1,6 +1,5 @@
 package com.policene.cinecrud.entities;
 
-import com.policene.cinecrud.exceptions.GenderNotFoundException;
 import java.time.Year;
 import java.util.regex.Pattern;
 
@@ -26,7 +25,7 @@ public class Movie {
         }
 
 
-        // Não aceitar número.
+        // Regex para não aceitar número.
         Pattern pattern = Pattern.compile("^[A-Za-záàâãéèêíïóôõöúçñ\\- ]+$");
 
         if (!pattern.matcher(director).find()) {
@@ -41,16 +40,8 @@ public class Movie {
     }
 
     public void setGender(String gender) {
-
         Gender genderFound = Gender.verifyGender(gender);
-
-        if (genderFound == null) {
-            throw new GenderNotFoundException("ERROR: Gender not found.");
-        } else {
-            this.gender = genderFound.getDescription();
-        }
-
-
+        this.gender = genderFound.getDescription();
     }
 
     public Integer getId() {
@@ -114,13 +105,6 @@ public class Movie {
         this.year = integerYear;
     }
 
-    public Movie(String title, String gender, String director, Integer year, Integer rating) {
-        this.director = director;
-        this.rating = rating;
-        this.title = title;
-        this.year = year;
-        this.gender = gender;
-    }
 
     @Override
     public String toString() {

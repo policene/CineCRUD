@@ -1,3 +1,5 @@
+
+
 .lateralbar {
     -fx-background-color: linear-gradient(
             to bottom,
@@ -64,6 +66,34 @@
 .filterPane {
     -fx-background-color: #f3f3f3;
     -fx-background-radius: 3px;
-
 }
+
+.buttonFilters {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-background-color: #d30101;
+}
+
+.buttonFilters:hover {
+    -fx-background-color: #8a0108;
+    -fx-cursor: hand;
+}
+
+.buttonResetFilters {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-background-color: #d30101;
+}
+
+.buttonResetFilters:hover {
+    -fx-background-color: #8a0108;
+    -fx-cursor: hand;
+}
+
+.tooltip {
+    -fx-font-size: 14px;
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #333333;
+}
+
 
