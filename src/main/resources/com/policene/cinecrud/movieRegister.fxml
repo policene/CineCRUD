@@ -11,20 +11,20 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.policene.cinecrud.controllers.MovieRegisterController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.policene.cinecrud.controllers.MovieRegisterController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <AnchorPane fx:id="lateralbar" prefHeight="480.0" prefWidth="165.0" styleClass="lateralbar" stylesheets="@app.css">
+            <AnchorPane fx:id="lateralbar" prefHeight="600.0" prefWidth="169.0" styleClass="lateralbar" stylesheets="@app.css">
                <children>
-                  <Label layoutX="23.0" layoutY="27.0" prefHeight="58.0" prefWidth="120.0" text="CineCRUD" textAlignment="CENTER" textFill="WHITE">
+                  <Label layoutX="20.0" layoutY="27.0" prefHeight="58.0" prefWidth="120.0" text="CineCRUD" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Tw Cen MT Condensed Extra Bold" size="32.0" />
                      </font>
                   </Label>
-                  <Line endX="100.0" layoutX="45.0" layoutY="72.0" startX="-28.5" stroke="WHITE" strokeWidth="2.0" />
+                  <Line endX="100.0" layoutX="42.0" layoutY="72.0" startX="-28.5" stroke="WHITE" strokeWidth="2.0" />
 
-                  <Button fx:id="buttonRegister" graphicTextGap="10.0" layoutX="18.0" layoutY="130.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="130.0" styleClass="buttonRegister" stylesheets="@movieRegister.css" text="Novo Filme" textFill="WHITE">
+                  <Button fx:id="buttonRegister" graphicTextGap="10.0" layoutX="16.0" layoutY="130.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="130.0" styleClass="buttonRegister" stylesheets="@movieRegister.css" text="Novo Filme" textFill="WHITE">
                      <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
                      </graphic>
@@ -32,12 +32,12 @@
                         <Font name="Nirmala UI Bold" size="15.0" />
                      </font>
                   </Button>
-                  <Label layoutX="44.0" layoutY="454.0" prefHeight="24.0" prefWidth="73.0" text="1.0.0-alpha " textFill="WHITE">
+                  <Label layoutX="45.0" layoutY="562.0" prefHeight="24.0" prefWidth="73.0" text="1.0.0-alpha " textFill="WHITE">
                      <font>
                         <Font name="Franklin Gothic Medium" size="14.0" />
                      </font>
                   </Label>
-                  <Button fx:id="buttonList" graphicTextGap="10.0" layoutX="18.0" layoutY="85.0" mnemonicParsing="false" onAction="#retornar" opacity="0.6" prefHeight="31.0" prefWidth="131.0" styleClass="buttonList" stylesheets="@movieRegister.css" text="Minha Lista" textFill="WHITE">
+                  <Button fx:id="buttonList" graphicTextGap="10.0" layoutX="16.0" layoutY="85.0" mnemonicParsing="false" onAction="#retornar" opacity="0.6" prefHeight="31.0" prefWidth="131.0" styleClass="buttonList" stylesheets="@movieRegister.css" text="Minha Lista" textFill="WHITE">
                      <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="fas-list" />
                      </graphic>
@@ -48,9 +48,9 @@
 
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="165.0" prefHeight="480.0" prefWidth="687.0" style="-fx-background-color: white;">
+            <AnchorPane layoutX="161.0" prefHeight="600.0" prefWidth="838.0" style="-fx-background-color: white;">
                <children>
-                  <Label graphicTextGap="10.0" layoutX="33.0" layoutY="33.0" text="NOVO FILME" textFill="RED">
+                  <Label graphicTextGap="10.0" layoutX="98.0" layoutY="60.0" text="NOVO FILME" textFill="RED">
                      <font>
                         <Font name="Franklin Gothic Demi" size="30.0" />
                      </font>
@@ -62,17 +62,17 @@
                         </FontIcon>
                      </graphic>
                   </Label>
-                  <TextField fx:id="titleField" layoutX="34.0" layoutY="113.0" />
-                  <TextField fx:id="directorField" layoutX="275.0" layoutY="113.0" />
-                  <TextField fx:id="yearField" layoutX="34.0" layoutY="167.0" />
-                  <TextField fx:id="ratingField" layoutX="34.0" layoutY="222.0" />
-                  <ChoiceBox fx:id="genderField" layoutX="275.0" layoutY="167.0" prefWidth="150.0" />
-                  <Label layoutX="34.0" layoutY="96.0" text="Título:" />
-                  <Label layoutX="275.0" layoutY="96.0" text="Diretor:" />
-                  <Label layoutX="34.0" layoutY="150.0" text="Ano:" />
-                  <Label layoutX="275.0" layoutY="150.0" text="Gênero:" />
-                  <Label layoutX="33.0" layoutY="205.0" text="Rating:" />
-                  <Button fx:id="buttonAdd" graphicTextGap="10.0" layoutX="559.0" layoutY="430.0" mnemonicParsing="false" onAction="#prosseguir" prefHeight="36.0" prefWidth="114.0" styleClass="buttonAdd" stylesheets="@movieRegister.css" text="Prosseguir" textFill="WHITE">
+                  <TextField fx:id="titleField" layoutX="99.0" layoutY="140.0" />
+                  <TextField fx:id="directorField" layoutX="340.0" layoutY="140.0" />
+                  <TextField fx:id="yearField" layoutX="99.0" layoutY="194.0" />
+                  <TextField fx:id="ratingField" layoutX="99.0" layoutY="249.0" />
+                  <ChoiceBox fx:id="genderField" layoutX="340.0" layoutY="194.0" prefWidth="150.0" />
+                  <Label layoutX="99.0" layoutY="123.0" text="Título:" />
+                  <Label layoutX="340.0" layoutY="123.0" text="Diretor:" />
+                  <Label layoutX="99.0" layoutY="177.0" text="Ano:" />
+                  <Label layoutX="340.0" layoutY="177.0" text="Gênero:" />
+                  <Label layoutX="98.0" layoutY="232.0" text="Rating:" />
+                  <Button fx:id="buttonAdd" graphicTextGap="10.0" layoutX="710.0" layoutY="550.0" mnemonicParsing="false" onAction="#prosseguir" prefHeight="36.0" prefWidth="114.0" styleClass="buttonAdd" stylesheets="@movieRegister.css" text="Prosseguir" textFill="WHITE">
                      <font>
                         <Font name="Nirmala UI Bold" size="15.0" />
                      </font>
