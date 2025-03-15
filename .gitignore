@@ -39,3 +39,6 @@ build/
 
 ### Pasta do artefato .jar
 out/
+
+### Banco de dados ###
+.mydb.db
