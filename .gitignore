@@ -41,4 +41,4 @@ build/
 out/
 
 ### Banco de dados ###
-.mydb.db
+mydb.db
