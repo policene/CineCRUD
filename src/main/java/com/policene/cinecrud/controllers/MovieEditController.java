@@ -23,57 +23,44 @@ import java.util.ResourceBundle;
 
 public class MovieEditController implements Initializable {
 
+    // Função de inicialização da cena.
     private Stage stage;
     private Scene scene;
     private Parent root;
 
+    // O filme que foi selecionado da TableView na tela inicial.
     public Movie movieToEdit;
 
+    // Elementos FXML dos campos de registro obrigatórios.
     @FXML
-    private Button buttonAdd;
-
-    @FXML
-    private Button buttonList;
-
-    @FXML
-    private Button buttonRegister;
-
+    private TextField titleField;
     @FXML
     private TextField directorField;
-
-    @FXML
-    private Label directorWarning;
-
-    @FXML
-    private Button editButton;
-
     @FXML
     private ChoiceBox<Gender> genderField;
-
     @FXML
-    private AnchorPane lateralbar;
-
+    private TextField yearField;
     @FXML
     private TextField ratingField;
 
+
+    // Elementos FXML dos avisos de validações dos campos.
+    @FXML
+    private Label titleWarning;
+    @FXML
+    private Label directorWarning;
+    @FXML
+    private Label yearWarning;
     @FXML
     private Label ratingWarning;
 
-    @FXML
-    private TextField titleField;
-
-    @FXML
-    private Label titleWarning;
-
-    @FXML
-    private TextField yearField;
-
-    @FXML
-    private Label yearWarning;
 
 
+    // Função de inicialização da cena.
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        // Os códigos abaixo fazem a validação em tempo real conforme o usuário digita o nome.
         titleField.textProperty().addListener((observable, oldValue, newValue) -> {
 
             String valor = newValue;
@@ -134,8 +121,6 @@ public class MovieEditController implements Initializable {
             }
         });
 
-
-
         genderField.getItems().addAll(Gender.values());
         genderField.setConverter(new StringConverter<Gender>() {
             @Override
@@ -150,11 +135,13 @@ public class MovieEditController implements Initializable {
         });
     }
 
+    // Função que pega o filme escolhido e executa o preencherCampos.
     public void setMovieToEdit(Movie filme) {
         this.movieToEdit = filme;
         preencherCampos();
     }
 
+    // Função que pré-define os campos de edição com os valores do filme escolhido.
     private void preencherCampos() {
         titleField.setText(movieToEdit.getTitle());
         directorField.setText(movieToEdit.getDirector());
@@ -164,13 +151,11 @@ public class MovieEditController implements Initializable {
         ratingField.setText(String.valueOf(movieToEdit.getRating()));
     }
 
-    public boolean isNull () {
-        return titleField.getText().isEmpty() && directorField.getText().isEmpty() && yearField.getText().isEmpty() && ratingField.getText().isEmpty() && genderField.getValue() == null;
-    }
 
-
+    // Função que faz o update do filme no banco de dados.
     @FXML
     void update(ActionEvent event) throws IOException {
+        // Se houver algum campo nulo, irá emitir um erro na tela.
         if (isNull()) {
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setTitle("Erro");
@@ -180,8 +165,8 @@ public class MovieEditController implements Initializable {
         } else {
             movieToEdit.setTitle(titleField.getText());
             movieToEdit.setDirector(directorField.getText());
-            movieToEdit.setYear(yearField.getText());
-            movieToEdit.setRating(ratingField.getText());
+            movieToEdit.setYear(Integer.valueOf(yearField.getText()));
+            movieToEdit.setRating(Integer.valueOf(ratingField.getText()));
             movieToEdit.setGender(genderField.getValue().getDescription());
 
             MovieService service = new MovieService(new MovieDAO());
@@ -196,6 +181,14 @@ public class MovieEditController implements Initializable {
         }
     }
 
+
+    // Função que retorna true se algum dos campos for nulo.
+    public boolean isNull () {
+        return titleField.getText().isEmpty() && directorField.getText().isEmpty() && yearField.getText().isEmpty() && ratingField.getText().isEmpty() && genderField.getValue() == null;
+    }
+
+
+    // Função para o botão 'Minha Lista', que leva para outra tela.
     @FXML
     void moveToList(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/policene/cinecrud/app.fxml"));
@@ -206,6 +199,8 @@ public class MovieEditController implements Initializable {
         stage.show();
     }
 
+
+    // Função para o botão 'Novo Filme', que leva para outra tela.
     @FXML
     void moveToRegister(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/policene/cinecrud/movieRegister.fxml"));

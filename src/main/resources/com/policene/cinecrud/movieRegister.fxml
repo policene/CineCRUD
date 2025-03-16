@@ -77,22 +77,22 @@
                         <Font name="Nirmala UI Bold" size="15.0" />
                      </font>
                   </Button>
-                  <Label fx:id="titleWarning" layoutX="70.0" layoutY="97.0" text="* Mínimo 3 caractéres." textFill="RED" visible="false">
+                  <Label fx:id="titleWarning" layoutX="135.0" layoutY="124.0" text="* Mínimo 3 caractéres." textFill="RED" visible="false">
                      <font>
                         <Font size="11.0" />
                      </font>
                   </Label>
-                  <Label fx:id="directorWarning" layoutX="317.0" layoutY="97.0" text="* Mínimo 4 caractéres." textFill="RED" visible="false">
+                  <Label fx:id="directorWarning" layoutX="382.0" layoutY="124.0" text="* Mínimo 4 caractéres." textFill="RED" visible="false">
                      <font>
                         <Font size="11.0" />
                      </font>
                   </Label>
-                  <Label fx:id="yearWarning" layoutX="61.0" layoutY="151.0" text="* Data inválida." textFill="RED" visible="false">
+                  <Label fx:id="yearWarning" layoutX="128.0" layoutY="178.0" text="* Data inválida." textFill="RED" visible="false">
                      <font>
                         <Font size="11.0" />
                      </font>
                   </Label>
-                  <Label fx:id="ratingWarning" layoutX="73.0" layoutY="206.0" text="* Valor entre 0 a 100." textFill="RED" visible="false">
+                  <Label fx:id="ratingWarning" layoutX="139.0" layoutY="233.0" text="* Valor entre 0 a 100." textFill="RED" visible="false">
                      <font>
                         <Font size="11.0" />
                      </font>

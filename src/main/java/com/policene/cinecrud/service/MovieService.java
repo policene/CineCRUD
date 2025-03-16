@@ -3,8 +3,6 @@ package com.policene.cinecrud.service;
 import com.policene.cinecrud.dao.MovieDAO;
 import com.policene.cinecrud.entities.Movie;
 import com.policene.cinecrud.exceptions.ExistentMovieException;
-import com.policene.cinecrud.exceptions.InvalidMovieException;
-import com.policene.cinecrud.exceptions.MovieNotFoundException;
 import javafx.collections.ObservableList;
 
 import java.util.List;

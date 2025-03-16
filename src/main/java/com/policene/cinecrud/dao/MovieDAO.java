@@ -2,7 +2,7 @@ package com.policene.cinecrud.dao;
 
 import com.policene.cinecrud.config.DatabaseConnection;
 import com.policene.cinecrud.entities.Movie;
-import com.policene.cinecrud.entities.Movie;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -19,6 +19,7 @@ public class MovieDAO {
         connection = new DatabaseConnection().getConnection();
     }
 
+    // Função para inserir um filme.
     public void insert (Movie movie) {
         try {
             String sql = "INSERT INTO movies (title, director, year, rating, gender) VALUES (?, ?, ?, ?, ?)";
@@ -38,6 +39,7 @@ public class MovieDAO {
         }
     }
 
+    // Função para atualizar um filme.
     public void update (Movie movie) {
         try {
             String sql = "UPDATE movies SET title = ?, director = ?, year = ?, rating = ?, gender = ? WHERE id = ?";
@@ -59,6 +61,7 @@ public class MovieDAO {
         }
     }
 
+    // Função para deletar um filme.
     public void delete (Integer id) {
         try {
             String sql = "DELETE FROM movies WHERE id = ?";
@@ -74,7 +77,7 @@ public class MovieDAO {
         }
     }
 
-
+    // Função para buscar um filme pelo nome.
     public Movie findByTitle(String title) {
         Movie movie = null;
         try {
@@ -88,18 +91,18 @@ public class MovieDAO {
                 movie.setId(resultSet.getInt("id"));
                 movie.setTitle(resultSet.getString("title"));
                 movie.setDirector(resultSet.getString("director"));
-                movie.setYear(String.valueOf(resultSet.getInt("year")));
-                movie.setRating(String.valueOf(resultSet.getInt("rating")));
+                movie.setYear(resultSet.getInt("year"));
+                movie.setRating((resultSet.getInt("rating")));
                 movie.setGender(resultSet.getString("gender"));
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return movie;
     }
 
+    // Função para listar todos os filmes em ordem alfabética.
     public ObservableList<Movie> listAll () {
         ObservableList<Movie> movies = FXCollections.observableArrayList();
         String sql = "SELECT * from movies ORDER by title ASC";
@@ -112,8 +115,8 @@ public class MovieDAO {
                 movie.setTitle(rs.getString("title"));
                 movie.setDirector(rs.getString("director"));
                 movie.setGender(rs.getString("gender"));
-                movie.setYear(String.valueOf(rs.getInt("year")));
-                movie.setRating(String.valueOf(rs.getInt("rating")));
+                movie.setYear(rs.getInt("year"));
+                movie.setRating(rs.getInt("rating"));
                 movies.add(movie);
             }
         } catch (SQLException e) {
@@ -193,8 +196,8 @@ public class MovieDAO {
                 movie.setId(resultSet.getInt("id"));
                 movie.setTitle(resultSet.getString("title"));
                 movie.setDirector(resultSet.getString("director"));
-                movie.setYear(String.valueOf(resultSet.getInt("year")));
-                movie.setRating(String.valueOf(resultSet.getInt("rating")));
+                movie.setYear(resultSet.getInt("year"));
+                movie.setRating(resultSet.getInt("rating"));
                 movie.setGender(resultSet.getString("gender"));
                 registers.add(movie);
             }
@@ -205,10 +208,6 @@ public class MovieDAO {
         }
         return registers;
     }
-
-
-
-
 
 
 }

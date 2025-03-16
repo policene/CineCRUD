@@ -37,8 +37,6 @@ public class AppController implements Initializable {
     // Service.
     private final MovieService service = new MovieService(new MovieDAO());
 
-    // Elementos FXML da barra lateral.
-
     // Elementos FXML da TableView.
     @FXML
     private TableView<Movie> table = new TableView<>();
@@ -101,6 +99,86 @@ public class AppController implements Initializable {
 
     }
 
+
+    // Função que configura a Table View, colocando todas as colunas e relacionando com os atributos do objeto Movie.
+    @FXML
+    void configureTableColumns(){
+        col_id.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getId()));
+        col_title.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getTitle()));
+        col_director.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getDirector()));
+        col_gender.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getGender()));
+        col_year.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getYear()));
+        col_rating_bar.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getRating()));
+        col_rating_bar.setCellFactory(param -> new TableCell<Movie, Integer>() {
+            private final ProgressBar progressBar = new ProgressBar();
+
+            @Override
+            protected void updateItem(Integer rating, boolean empty) {
+                super.updateItem(rating, empty);
+
+                // Se houver um valor inválido, o gráfico não existe.
+                if (empty || rating == null) {
+                    setGraphic(null);
+                } else {
+                    // Caso contrário, ele cria a progress bar.
+                    progressBar.setPrefWidth(80);
+                    progressBar.setPrefHeight(11);
+
+
+                    double progress = rating / 100.0;
+                    String colorStyle;
+
+                    if (rating <= 10) {
+                        colorStyle = "-fx-accent: #8B0000;";
+                    } else if (rating <= 20) {
+                        colorStyle = "-fx-accent: #FF0000;"; // Vermelho
+                    } else if (rating <= 30) {
+                        colorStyle = "-fx-accent: #FF4500;"; // Laranja avermelhado
+                    } else if (rating <= 40) {
+                        colorStyle = "-fx-accent: #FF8C00;"; // Laranja escuro
+                    } else if (rating <= 50) {
+                        colorStyle = "-fx-accent: #FFA500;"; // Laranja
+                    } else if (rating <= 60) {
+                        colorStyle = "-fx-accent: #FFD700;"; // Amarelo dourado
+                    } else if (rating <= 70) {
+                        colorStyle = "-fx-accent: #ADFF2F;"; // Verde amarelado
+                    } else if (rating <= 80) {
+                        colorStyle = "-fx-accent: #32CD32;"; // Verde limão
+                    } else if (rating <= 90) {
+                        colorStyle = "-fx-accent: #008000;"; // Verde
+                    } else {
+                        colorStyle = "-fx-accent: #006400;"; // Verde escuro
+                    }
+
+                    progressBar.setStyle(colorStyle);
+                    progressBar.setProgress(progress);
+                    setGraphic(progressBar);
+                }
+            }
+        });
+    }
+
+
+    // Função para exibir os botões de 'Editar' e 'Deletar' quando um filme for selecionado.
+    private void configureTableSelection() {
+        table.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldSelection, newSelection) -> {
+                    if (newSelection != null) {
+                        buttonEdit.setVisible(true);
+                        buttonDelete.setVisible(true);
+                    }
+                }
+        );
+    }
+
+
+    // Função para carregar os dados na TableView inicialmente.
+    @FXML
+    void loadData(){
+        table.setItems(service.listAll());
+    }
+
+
     // Função que configura as 'tips' de botões ao passar o mouse sobre.
     public void configureToolTips () {
         Tooltip tipButtonFilters = new Tooltip("Exibir mais filtros de pesquisa.");
@@ -110,7 +188,10 @@ public class AppController implements Initializable {
         buttonResetFilters.setTooltip(tipResetButtonFilters);
     }
 
+
+    // Função que configura os fields de filtros.
     public void setupSearchFilters() {
+        // A cada caractére digitado, ele vai chamar a função de performar uma busca combinada.
         titleField.textProperty().addListener((observable, oldValue, newValue) -> {
             performCombinedSearch();
         });
@@ -119,6 +200,8 @@ public class AppController implements Initializable {
             performCombinedSearch();
         });
 
+        // Nos campos abaixo, além da chamada do performCombinedSearch(), os campos
+        // são validados caso o 'min' seja maior que o 'max', vice-versa.
         minRatingField.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 minRatingField.setStyle("");
@@ -207,7 +290,7 @@ public class AppController implements Initializable {
 
         });
 
-
+        // Aqui o ChoiceBox do Gender Field é populado, colocando as descrições de cada gênero.
         genderField.getItems().addAll(Gender.values());
         genderField.setConverter(new StringConverter<Gender>() {
             @Override
@@ -228,6 +311,8 @@ public class AppController implements Initializable {
         });
     }
 
+
+    // Função que faz a query contendo todas as informações presentes nos campos de busca.
     public void performCombinedSearch() {
         String titleQuery = titleField.getText().trim();
         String directorQuery = directorField.getText().trim();
@@ -246,6 +331,8 @@ public class AppController implements Initializable {
         table.setItems(observableResults);
     }
 
+
+    // Função para o botão de 'Novo Filme'. Leva para outra janela.
     @FXML
     void moveToRegister(ActionEvent ev) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/policene/cinecrud/movieRegister.fxml"));
@@ -258,71 +345,15 @@ public class AppController implements Initializable {
     }
 
 
-
-    @FXML
-    void configureTableColumns(){
-        col_id.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getId()));
-        col_title.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getTitle()));
-        col_director.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getDirector()));
-        col_gender.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getGender()));
-        col_year.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getYear()));
-        col_rating_bar.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getRating()));
-        col_rating_bar.setCellFactory(param -> new TableCell<Movie, Integer>() {
-            private final ProgressBar progressBar = new ProgressBar();
-
-            @Override
-            protected void updateItem(Integer rating, boolean empty) {
-                super.updateItem(rating, empty);
-
-                if (empty || rating == null) {
-                    setGraphic(null);
-                } else {
-                    progressBar.setPrefWidth(80);
-                    progressBar.setPrefHeight(11);
-
-
-                    double progress = rating / 100.0;
-                    String colorStyle;
-
-                    if (rating <= 10) {
-                        colorStyle = "-fx-accent: #8B0000;";
-                    } else if (rating <= 20) {
-                        colorStyle = "-fx-accent: #FF0000;"; // Vermelho
-                    } else if (rating <= 30) {
-                        colorStyle = "-fx-accent: #FF4500;"; // Laranja avermelhado
-                    } else if (rating <= 40) {
-                        colorStyle = "-fx-accent: #FF8C00;"; // Laranja escuro
-                    } else if (rating <= 50) {
-                        colorStyle = "-fx-accent: #FFA500;"; // Laranja
-                    } else if (rating <= 60) {
-                        colorStyle = "-fx-accent: #FFD700;"; // Amarelo dourado
-                    } else if (rating <= 70) {
-                        colorStyle = "-fx-accent: #ADFF2F;"; // Verde amarelado
-                    } else if (rating <= 80) {
-                        colorStyle = "-fx-accent: #32CD32;"; // Verde limão
-                    } else if (rating <= 90) {
-                        colorStyle = "-fx-accent: #008000;"; // Verde
-                    } else {
-                        colorStyle = "-fx-accent: #006400;"; // Verde escuro
-                    }
-
-                    progressBar.setStyle(colorStyle);
-                    progressBar.setProgress(progress);
-                    setGraphic(progressBar);
-                }
-            }
-        });
-
-
-    }
-
-    // Função para o botão de editar um filme selecionado.
+    // Função para o botão de 'Editar Filme'. Leva para outra janela.
     @FXML
     void editMovie(ActionEvent ev) throws IOException {
         Movie movieSelected = table.getSelectionModel().getSelectedItem();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/policene/cinecrud/movieEdit.fxml"));
         root = loader.load();
 
+        // Logo após carregar a página, ele usa a função setMovieToEdit
+        // para preparar os campos de edição com os dados do filme.
         MovieEditController movieEditController = loader.getController();
         movieEditController.setMovieToEdit(movieSelected);
 
@@ -332,6 +363,7 @@ public class AppController implements Initializable {
         stage.show();
 
     }
+
 
     // Função para o botão de deletar um filme selecionado.
     @FXML
@@ -349,23 +381,6 @@ public class AppController implements Initializable {
         }
     }
 
-    // Função para carregar os dados na TableView inicialmente.
-    @FXML
-    void loadData(){
-        table.setItems(service.listAll());
-    }
-
-    // Função para exibir os botões de 'Editar' e 'Deletar' quando um filme for selecionado.
-    private void configureTableSelection() {
-        table.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldSelection, newSelection) -> {
-                    if (newSelection != null) {
-                        buttonEdit.setVisible(true);
-                        buttonDelete.setVisible(true);
-                    }
-                }
-        );
-    }
 
     // Função para o botão que abre a tela com todos os filtros de pesquisa disponíveis.
     @FXML
@@ -390,6 +405,7 @@ public class AppController implements Initializable {
         }
     }
 
+
     // Função para o botão que limpa os filtros de pesquisa para o padrão.
     @FXML
     private void clearAllFilters() {
@@ -402,10 +418,6 @@ public class AppController implements Initializable {
         genderField.setValue(null);
         loadData();
     }
-
-
-
-
 
 
 }

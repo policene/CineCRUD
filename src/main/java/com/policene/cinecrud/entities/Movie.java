@@ -56,20 +56,11 @@ public class Movie {
         return rating;
     }
 
-    public void setRating(String stringRating) {
-
-        Pattern pattern = Pattern.compile("^\\d{1,3}$");
-        if (!pattern.matcher(stringRating).find()) {
-            throw new IllegalArgumentException("ERROR: Rating must contain only numbers.");
-        }
-
-        int integerRating = Integer.parseInt(stringRating);
-
-        if (integerRating > 100 || integerRating < 0) {
+    public void setRating(Integer rating) {
+        if (rating > 100 || rating < 0) {
             throw new IllegalArgumentException("ERROR: Rating must be a number between 0 and 100.");
         }
-
-        this.rating = integerRating;
+        this.rating = rating;
     }
 
     public String getTitle() {
@@ -87,22 +78,11 @@ public class Movie {
         return year;
     }
 
-    public void setYear(String stringYear) {
-
-
-        Pattern pattern = Pattern.compile("^\\d{4}$");
-
-        if (!pattern.matcher(stringYear).find()) {
-            throw new IllegalArgumentException("ERROR: Year must be a sequence of four numbers.");
-        }
-
-        int integerYear = Integer.parseInt(stringYear);
-
-
-        if (integerYear > Year.now().getValue() || integerYear < 1895) {
+    public void setYear(Integer year) {
+        if (year > Year.now().getValue() || year < 1895) {
             throw new IllegalArgumentException("ERROR: Invalid year.");
         }
-        this.year = integerYear;
+        this.year = year;
     }
 
 

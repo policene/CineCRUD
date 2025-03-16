@@ -15,7 +15,7 @@ public class    DatabaseConnection {
             conn = DriverManager.getConnection(DB_URL);
             initializeDatabase();
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao conectar ao banco de dados", e);
+            throw new RuntimeException("Error on connecting to database.", e);
         }
     }
 
@@ -34,7 +34,7 @@ public class    DatabaseConnection {
         try (Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inicializar o banco de dados", e);
+            throw new RuntimeException("Error on initializing the database.", e);
         }
     }
 
@@ -44,7 +44,7 @@ public class    DatabaseConnection {
                 conn.close();
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao fechar conexão", e);
+            throw new RuntimeException("Error on closing the connection.", e);
         }
     }
 

@@ -23,14 +23,12 @@ import java.util.ResourceBundle;
 
 public class MovieRegisterController implements Initializable {
 
+    // Variáveis padrão para trocar de tela.
     private Stage stage;
     private Scene scene;
     private Parent root;
 
-    @FXML
-    private Button continueButton;
-    @FXML
-    private Button returnButton;
+    // Elementos FXML dos campos de registro obrigatórios.
     @FXML
     private TextField directorField;
     @FXML
@@ -42,6 +40,7 @@ public class MovieRegisterController implements Initializable {
     @FXML
     private TextField yearField;
 
+    // Elementos FXML dos avisos de validações dos campos.
     @FXML
     private Label titleWarning;
     @FXML
@@ -51,9 +50,12 @@ public class MovieRegisterController implements Initializable {
     @FXML
     private Label ratingWarning;
 
+
+    // Função de inicialização da cena.
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        // Os códigos abaixo fazem a validação em tempo real conforme o usuário digita o nome.
         titleField.textProperty().addListener((observable, oldValue, newValue) -> {
 
             String valor = newValue;
@@ -114,8 +116,7 @@ public class MovieRegisterController implements Initializable {
             }
         });
 
-
-
+        // Popula o Choice Box de Gender Field com os gêneros.
         genderField.getItems().addAll(Gender.values());
         genderField.setConverter(new StringConverter<Gender>() {
             @Override
@@ -130,7 +131,9 @@ public class MovieRegisterController implements Initializable {
         });
     }
 
+    // Função para o botão 'Prosseguir', faz o envio do filme para o banco.
     public void prosseguir (ActionEvent ev){
+        // Se houver algum campo nulo, irá emitir um erro na tela.
         if (isNull()) {
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setTitle("Erro");
@@ -143,8 +146,8 @@ public class MovieRegisterController implements Initializable {
                 Movie movie = new Movie();
                 movie.setTitle(titleField.getText());
                 movie.setDirector(directorField.getText());
-                movie.setYear(yearField.getText());
-                movie.setRating(ratingField.getText());
+                movie.setYear(Integer.valueOf(yearField.getText()));
+                movie.setRating(Integer.valueOf(ratingField.getText()));
                 movie.setGender(genderField.getValue().getDescription());
 
                 MovieService service = new MovieService(new MovieDAO());
@@ -155,6 +158,7 @@ public class MovieRegisterController implements Initializable {
                 alert.setContentText("Filme inserido com sucesso.");
                 alert.showAndWait();
 
+                // Retorna para a tela inicial após a inserção.
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/policene/cinecrud/app.fxml"));
                 root = loader.load();
                 stage = (Stage)((Node)ev.getSource()).getScene().getWindow();
@@ -163,7 +167,6 @@ public class MovieRegisterController implements Initializable {
                 stage.show();
 
             } catch (ExistentMovieException | IOException ex) {
-
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erro");
                 alert.setContentText("Título de filme já existe no sistema.");
@@ -174,10 +177,11 @@ public class MovieRegisterController implements Initializable {
                 alert.setContentText("Informações inválidas.");
                 alert.showAndWait();
             }
-
         }
     }
 
+
+    // Função para o botão de 'Minha Lista', que retorna para a tela inicial.
     public void retornar(ActionEvent ev) throws IOException {
         if (isNull()){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/policene/cinecrud/app.fxml"));
@@ -187,6 +191,7 @@ public class MovieRegisterController implements Initializable {
             stage.setScene(scene);
             stage.show();
         } else {
+            // Se houver algum campo preenchido, ele vai emitir um alerta de confirmação para o usuário.
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Retornar");
             alert.setHeaderText("");
@@ -203,6 +208,7 @@ public class MovieRegisterController implements Initializable {
     }
 
 
+    // Função que retorna true se algum dos campos for nulo.
     public boolean isNull () {
         return titleField.getText().isEmpty() && directorField.getText().isEmpty() && yearField.getText().isEmpty() && ratingField.getText().isEmpty() && genderField.getValue() == null;
     }
